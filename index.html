@@ -759,83 +759,10 @@
   <div class="wrap">
     <div class="section-header">
       <h2 class="section-title">Dostępne builds</h2>
-      <span class="section-count">9 sztuk</span>
+      <span class="section-count" id="builds-count">9 sztuk</span>
     </div>
-
-    <div class="product-grid">
-
-      <a class="product-card" href="#" onclick="openDetail('build-01'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-office"><span class="tag-dot"></span>Silent Office</span>
-        <h3 class="card-name">Ajazz AK820<br>Glacier White</h3>
-        <p class="card-spec">Gateron Silent Yellow · Krytox 205g0 · Hotswap · TKL</p>
-        <div class="card-footer"><span class="card-price">380 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-02'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-gaming"><span class="tag-dot"></span>Gaming RGB</span>
-        <h3 class="card-name">Aula F75<br>Cyberpunk</h3>
-        <p class="card-spec">Speed Silver WASD + Yellow · South LED · 75% · Tri-mode</p>
-        <div class="card-footer"><span class="card-price">480 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-03'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-office"><span class="tag-dot"></span>Silent Office</span>
-        <h3 class="card-name">Keychron V2<br>Midnight Fog</h3>
-        <p class="card-spec">Boba U4 · Krytox 205g0 · Hotswap · 75%</p>
-        <div class="card-footer"><span class="card-price">420 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-04'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-gaming"><span class="tag-dot"></span>Gaming RGB</span>
-        <h3 class="card-name">GMMK Pro<br>Carbon Black</h3>
-        <p class="card-spec">Gateron Yellow Pro · Hotswap · 75% · Knob</p>
-        <div class="card-footer"><span class="card-price">650 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-05'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-office"><span class="tag-dot"></span>Silent Office</span>
-        <h3 class="card-name">Cidoo V65<br>Glacier</h3>
-        <p class="card-spec">Akko Penguin · Krytox 205g0 · Aluminium · 65%</p>
-        <div class="card-footer"><span class="card-price">520 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-06'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-gaming"><span class="tag-dot"></span>Gaming RGB</span>
-        <h3 class="card-name">Redragon K552<br>Lava Edition</h3>
-        <p class="card-spec">Gateron Red · South LED · TKL · USB-C</p>
-        <div class="card-footer"><span class="card-price">280 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-07'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-office"><span class="tag-dot"></span>Silent Office</span>
-        <h3 class="card-name">Epomaker TH80<br>Arctic White</h3>
-        <p class="card-spec">TTC Silent Bluish White V2 · Gasket · 75% · Tri-mode</p>
-        <div class="card-footer"><span class="card-price">450 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-08'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-gaming"><span class="tag-dot"></span>Gaming RGB</span>
-        <h3 class="card-name">Aula F68<br>Neon Storm</h3>
-        <p class="card-spec">Gateron G Pro Yellow · RGB · 65% · Hotswap</p>
-        <div class="card-footer"><span class="card-price">360 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
-      <a class="product-card" href="#" onclick="openDetail('build-09'); return false;">
-        <div class="card-img"><div class="card-img-placeholder">[ zdjęcie ]</div></div>
-        <span class="card-tag tag-office"><span class="tag-dot"></span>Silent Office</span>
-        <h3 class="card-name">Womier SK71<br>Sand Beige</h3>
-        <p class="card-spec">Gazzew Boba U4 · Krytox 205g0 · Aluminium · 65%</p>
-        <div class="card-footer"><span class="card-price">580 PLN</span><span class="card-status">dostępna</span></div>
-      </a>
-
+    <div class="product-grid" id="product-grid">
+      <!-- karty renderowane przez JS po załadowaniu manifestów -->
     </div>
   </div>
 </section>
@@ -954,6 +881,68 @@
 </div>
 
 <script>
+/* ── MANIFEST LOADER ─────────────────────────────────────────
+   Przy starcie strony fetchuje manifest.json z każdego folderu
+   buildu, uzupełnia tablicę images[] i renderuje karty.
+──────────────────────────────────────────────────────────── */
+
+const BUILD_IDS = [
+  'build-01','build-02','build-03','build-04','build-05',
+  'build-06','build-07','build-08','build-09'
+];
+
+function buildFolderFromId(id) {
+  return 'graphics/' + id.replace('-','') + '/';
+}
+
+async function loadManifest(id) {
+  const folder = buildFolderFromId(id);
+  try {
+    const r = await fetch(folder + 'manifest.json');
+    if (!r.ok) return [];
+    const data = await r.json();
+    return (data.images || []).map(name => folder + name);
+  } catch { return []; }
+}
+
+function renderCard(id, b) {
+  const isGaming = b.tag === 'gaming-rgb';
+  const tagClass = isGaming ? 'tag-gaming' : 'tag-office';
+  const tagLabel = isGaming ? 'Gaming RGB' : 'Silent Office';
+  const cover = b.images && b.images.length > 0
+    ? `<img src="${b.images[0]}" alt="${b.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>[ zdjęcie ]</div>'">`
+    : `<div class="card-img-placeholder">[ zdjęcie ]</div>`;
+  const [nameLine1, nameLine2] = b.name.split('\n');
+
+  return `<a class="product-card" href="#" onclick="openDetail('${id}'); return false;">
+    <div class="card-img">${cover}</div>
+    <span class="card-tag ${tagClass}"><span class="tag-dot"></span>${tagLabel}</span>
+    <h3 class="card-name">${nameLine1}${nameLine2 ? '<br>' + nameLine2 : ''}</h3>
+    <p class="card-spec">${b.subtitle}</p>
+    <div class="card-footer">
+      <span class="card-price">${b.price}</span>
+      <span class="card-status">dostępna</span>
+    </div>
+  </a>`;
+}
+
+async function initBuilds() {
+  // Równolegle fetchuj wszystkie manifesty
+  const manifests = await Promise.all(BUILD_IDS.map(loadManifest));
+
+  // Uzupełnij images[] w danych buildów
+  BUILD_IDS.forEach((id, i) => {
+    if (builds[id]) builds[id].images = manifests[i];
+  });
+
+  // Renderuj karty
+  const grid = document.getElementById('product-grid');
+  if (grid) {
+    grid.innerHTML = BUILD_IDS.map(id => builds[id] ? renderCard(id, builds[id]) : '').join('');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', initBuilds);
 const builds = {
   'build-01': {
     tag: 'silent-office',
