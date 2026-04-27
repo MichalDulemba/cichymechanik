@@ -161,34 +161,41 @@
   /* ── PRODUCT GRID ── */
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 0.5px solid var(--line);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
 
   /* ── PRODUCT CARD ── */
   .product-card {
     background: var(--cream);
-    padding: 28px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     cursor: pointer;
     transition: background 0.2s;
     text-decoration: none;
     color: inherit;
+    border: 0.5px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
   }
 
   .product-card:hover { background: var(--paper); }
+
+  .card-body {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
 
   .card-img {
     width: 100%;
     aspect-ratio: 4/3;
     background: var(--paper);
-    border-radius: 2px;
-    margin-bottom: 20px;
     overflow: hidden;
     position: relative;
+    flex-shrink: 0;
   }
 
   .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -276,14 +283,14 @@
     color: var(--ink);
   }
 
-  .card-spec { font-size: 11px; color: var(--ink-muted); margin-bottom: 20px; line-height: 1.6; }
+  .card-spec { font-size: 11px; color: var(--ink-muted); margin-bottom: 0; line-height: 1.6; flex: 1; }
 
   .card-footer {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin-top: auto;
-    padding-top: 20px;
+    margin-top: 14px;
+    padding-top: 14px;
     border-top: 0.5px solid var(--line);
   }
 
@@ -720,6 +727,11 @@
     .detail-nav-inner { padding: 0 24px; }
     .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
     .nav-links { display: none; }
+    .product-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .product-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 768px) {
@@ -1055,12 +1067,14 @@ function renderCard(id, b) {
         <div class="card-pause-bars" id="cpb-${id}"><span></span><span></span></div>
       </button>
     </div>
-    <span class="card-tag ${tagClass}"><span class="tag-dot"></span>${tagLabel}</span>
-    <h3 class="card-name">${nameLine1}${nameLine2 ? '<br>' + nameLine2 : ''}</h3>
-    <p class="card-spec">${b.subtitle}</p>
-    <div class="card-footer">
-      <span class="card-price">${b.price}</span>
-      <span class="card-status">dostępna</span>
+    <div class="card-body">
+      <span class="card-tag ${tagClass}"><span class="tag-dot"></span>${tagLabel}</span>
+      <h3 class="card-name">${nameLine1}${nameLine2 ? '<br>' + nameLine2 : ''}</h3>
+      <p class="card-spec">${b.subtitle}</p>
+      <div class="card-footer">
+        <span class="card-price">${b.price}</span>
+        <span class="card-status">dostępna</span>
+      </div>
     </div>
   </a>`;
 }
