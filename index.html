@@ -204,6 +204,53 @@
     letter-spacing: 1px;
   }
 
+  /* Mini audio player on card */
+  .card-play-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(250,249,246,0.92);
+    border: 0.5px solid var(--line);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.15s;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+  }
+
+  .card-play-btn:hover { background: var(--ink); transform: scale(1.08); }
+  .card-play-btn:hover .card-play-icon { border-left-color: var(--cream); }
+  .card-play-btn:hover .card-pause-bars span { background: var(--cream); }
+
+  .card-play-icon {
+    border-left: 9px solid var(--ink);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    margin-left: 2px;
+  }
+
+  .card-pause-bars {
+    display: none;
+    gap: 2px;
+    align-items: center;
+  }
+
+  .card-pause-bars span {
+    display: block;
+    width: 3px;
+    height: 10px;
+    background: var(--ink);
+    border-radius: 1px;
+  }
+
+  .card-playing .card-play-icon { display: none; }
+  .card-playing .card-pause-bars { display: flex; }
+
   .card-tag {
     font-size: 9px;
     letter-spacing: 2.5px;
@@ -804,6 +851,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="#builds">Builds</a></li>
+      <li><a href="dzwieki.html">Posłuchaj</a></li>
       <li><a href="o-mnie.html">O mnie</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube ↗</a></li>
@@ -895,6 +943,7 @@
   <div class="footer-inner">
     <div class="footer-logo" style="font-family:'Outfit',sans-serif;font-weight:300;font-size:18px;letter-spacing:0.5px;">Cichy Mechanik</div>
     <ul class="footer-links">
+      <li><a href="dzwieki.html">Posłuchaj</a></li>
       <li><a href="o-mnie.html">O mnie</a></li>
       <li><a href="regulamin.html">Regulamin</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
@@ -998,9 +1047,16 @@ function renderCard(id, b) {
     ? `<img src="${b.images[0]}" alt="${b.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>[ zdjęcie ]</div>'">`
     : `<div class="card-img-placeholder">[ zdjęcie ]</div>`;
   const [nameLine1, nameLine2] = b.name.split('\n');
+  const hasAudio = !!b.audioSrc;
 
   return `<a class="product-card" href="#" data-tag="${b.tag}" data-type="${b.type}" data-sound="${b.sound}" onclick="openDetail('${id}'); return false;">
-    <div class="card-img">${cover}</div>
+    <div class="card-img">
+      ${cover}
+      ${hasAudio ? `<button class="card-play-btn" onclick="cardPlay('${id}', event)" title="Posłuchaj">
+        <div class="card-play-icon" id="cpi-${id}"></div>
+        <div class="card-pause-bars" id="cpb-${id}"><span></span><span></span></div>
+      </button>` : ''}
+    </div>
     <span class="card-tag ${tagClass}"><span class="tag-dot"></span>${tagLabel}</span>
     <h3 class="card-name">${nameLine1}${nameLine2 ? '<br>' + nameLine2 : ''}</h3>
     <p class="card-spec">${b.subtitle}</p>
@@ -1051,6 +1107,49 @@ function applyFilters() {
   const noResults = document.getElementById('no-results');
   if (countEl) countEl.textContent = visible + ' sztuk';
   if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── CARD MINI PLAYER ── */
+let cardAudio = null;
+let cardPlayingId = null;
+
+function cardPlay(id, e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const b = builds[id];
+  if (!b || !b.audioSrc) return;
+
+  // Same card — toggle
+  if (cardPlayingId === id) {
+    if (cardAudio && !cardAudio.paused) {
+      cardAudio.pause();
+      setCardState(id, false);
+    } else {
+      cardAudio.play();
+      setCardState(id, true);
+    }
+    return;
+  }
+
+  // Stop previous
+  if (cardAudio) { cardAudio.pause(); cardAudio = null; }
+  if (cardPlayingId) setCardState(cardPlayingId, false);
+
+  // Play new
+  cardPlayingId = id;
+  cardAudio = new Audio(b.audioSrc);
+  cardAudio.volume = 0.8;
+  cardAudio.play().then(() => setCardState(id, true)).catch(() => {});
+  cardAudio.onended = () => { setCardState(id, false); cardPlayingId = null; };
+}
+
+function setCardState(id, playing) {
+  const btn = document.querySelector(`#item-${id} .card-play-btn`) ||
+              document.querySelector(`[onclick*="'${id}'"] .card-play-btn`);
+  if (!btn) return;
+  btn.classList.toggle('card-playing', playing);
+  btn.querySelector('.card-play-icon').style.display = playing ? 'none' : '';
+  btn.querySelector('.card-pause-bars').style.display = playing ? 'flex' : '';
 }
 
 document.addEventListener('DOMContentLoaded', initBuilds);
