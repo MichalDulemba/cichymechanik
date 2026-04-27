@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O mnie — Cichy Mechanik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400&display=swap" rel="stylesheet">
+<link rel="icon" href="graphics/favicon.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #faf9f6; --paper: #f4f1eb; --ink: #1a1915; --ink-soft: #5a5850;
+    --ink-muted: #9a9890; --line: #e0ddd6;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Outfit', sans-serif;
+    --max: 1200px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: var(--mono); font-size: 13px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 0.5px solid var(--line); }
+  .nav-inner { max-width: var(--max); margin: 0 auto; padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--sans); font-size: 20px; font-weight: 300; letter-spacing: 0.5px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo img { height: 36px; width: auto; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+
+  /* HERO — dwie kolumny: tekst + zdjęcie */
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 80px;
+    padding: 80px 0 72px;
+    border-bottom: 0.5px solid var(--line);
+    align-items: start;
+  }
+
+  .hero-left {}
+
+  .page-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+  .page-title em { font-style: italic; color: var(--ink-soft); }
+
+  .hero-intro { font-size: 14px; color: var(--ink-soft); line-height: 1.9; max-width: 520px; }
+  .hero-intro p { margin-bottom: 16px; }
+  .hero-intro p:last-child { margin-bottom: 0; }
+  .hero-intro strong { color: var(--ink); font-weight: 400; }
+
+  /* PHOTO */
+  .photo-block {
+    position: sticky;
+    top: 80px;
+  }
+
+  .photo-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--paper);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--ink-muted);
+  }
+
+  .photo-placeholder-icon {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .photo-caption {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+
+  /* CONTENT SECTIONS */
+  section { padding: 64px 0; border-top: 0.5px solid var(--line); }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .content-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding-top: 4px;
+    position: sticky;
+    top: 76px;
+  }
+
+  .content-body p { font-size: 14px; color: var(--ink-soft); line-height: 1.9; margin-bottom: 20px; }
+  .content-body p:last-child { margin-bottom: 0; }
+  .content-body strong { color: var(--ink); font-weight: 400; }
+
+  /* PROCESS */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 0.5px solid var(--line);
+  }
+
+  .process-item { background: var(--cream); padding: 32px; }
+  .process-num { font-family: var(--serif); font-size: 48px; font-weight: 300; color: var(--line); line-height: 1; margin-bottom: 16px; }
+  .process-title { font-size: 12px; letter-spacing: 1px; color: var(--ink); margin-bottom: 10px; }
+  .process-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.7; }
+
+  /* STATS */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 0.5px solid var(--line);
+    margin-top: 48px;
+  }
+
+  .stat { background: var(--cream); padding: 24px 28px; }
+  .stat-val { font-family: var(--serif); font-size: 36px; font-weight: 300; line-height: 1; margin-bottom: 8px; }
+  .stat-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
+
+  /* CTA */
+  .cta-section {
+    padding: 64px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .cta-text { font-family: var(--serif); font-size: 28px; font-weight: 300; line-height: 1.3; }
+  .cta-text em { font-style: italic; }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 1px;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+
+  .cta-btn:hover { background: var(--ink-soft); }
+
+  /* FOOTER */
+  footer { border-top: 0.5px solid var(--line); padding: 40px 0; }
+  .footer-inner { max-width: var(--max); margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-logo { font-family: var(--sans); font-size: 18px; font-weight: 300; letter-spacing: 0.5px; }
+  .footer-links { display: flex; gap: 24px; list-style: none; }
+  .footer-links a { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--ink); }
+  .footer-note { font-size: 10px; color: var(--ink-muted); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .wrap, .nav-inner, .footer-inner { padding-left: 24px; padding-right: 24px; }
+    .hero-split { grid-template-columns: 1fr; gap: 40px; }
+    .photo-block { position: static; }
+    .photo-frame { aspect-ratio: 4/3; }
+    .content-grid { grid-template-columns: 1fr; gap: 24px; }
+    .content-label { position: static; }
+    .process-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .cta-section { flex-direction: column; align-items: flex-start; }
+    .nav-links { display: none; }
+    .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="graphics/logo_cichy_mechanik.png" alt="Cichy Mechanik">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#builds">Builds</a></li>
+      <li><a href="o-mnie.html" class="active">O mnie</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+      <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO: tytuł + zdjęcie -->
+  <div class="hero-split">
+    <div class="hero-left">
+      <p class="page-eyebrow">O mnie</p>
+      <h1 class="page-title">
+        Michał.<br>
+        Żory. Śląsk.<br>
+        <em>Klawiatura.</em>
+      </h1>
+      <div class="hero-intro">
+        <p>
+          <!-- TUTAJ: napisz 2-3 zdania kim jesteś zanim trafiłeś do klawiatur.
+               Co robisz na co dzień? Skąd jesteś? Co lubisz poza tym hobby? -->
+          [Kim jesteś poza klawiaturami — 2-3 zdania, naturalnie, bez CV-speak.]
+        </p>
+        <p>
+          Zaczęło się od frustracji z głośnymi klawiaturami w open space i skończyło na kilkunastu godzinach przy pęsecie, Krytoxie i switchach rozłożonych na całym biurku. Tak to już bywa.
+        </p>
+        <p>
+          Dziś każdy build który wychodzi z warsztatu jest <strong>testowany, nagrywany i opisywany</strong>. Nie wysyłam nic czego sam nie chciałbym używać.
+        </p>
+      </div>
+    </div>
+
+    <!-- ZDJĘCIE -->
+    <div class="photo-block">
+      <div class="photo-frame">
+        <!-- Podmień src na graphics/photo.jpg gdy masz zdjęcie -->
+        <img src="graphics/photo.jpg" alt="Michał — Cichy Mechanik"
+             onerror="this.parentElement.innerHTML='<div class=photo-placeholder><div class=photo-placeholder-icon>👤</div><p style=font-size:11px;color:var(--ink-muted);letter-spacing:1px;>zdjęcie wkrótce</p></div>'">
+      </div>
+      <p class="photo-caption">
+        Żory, Śląsk · warsztat aktywny
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- JAK PRACUJĘ -->
+<section>
+  <div class="wrap">
+    <div class="content-grid">
+      <div class="content-label">Jak pracuję</div>
+      <div class="content-body" style="padding:0;">
+        <div class="process-grid">
+          <div class="process-item">
+            <div class="process-num">01</div>
+            <div class="process-title">Dobór komponentów</div>
+            <div class="process-desc">Obudowa, płytka, switch — każda kombinacja ma inny charakter dźwięku. Zaczynam od pytania: do czego ma służyć?</div>
+          </div>
+          <div class="process-item">
+            <div class="process-num">02</div>
+            <div class="process-title">Ręczne smarowanie</div>
+            <div class="process-desc">Każdy switch osobno. Krytox 205g0 na lineary, 3203 na tactile. Stem rails bez 205g0 — żeby nie niszczyć pad dampening. Zajmuje godziny. Słychać różnicę.</div>
+          </div>
+          <div class="process-item">
+            <div class="process-num">03</div>
+            <div class="process-title">Test i nagranie</div>
+            <div class="process-desc">Przed wysyłką — test akustyczny i nagranie MP3. Słyszysz zanim kupisz. Nie ma niespodzianek po otwarciu paczki.</div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-val">9</div>
+            <div class="stat-label">Builds 2026</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">∞</div>
+            <div class="stat-label">Godzin przy pęsecie</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">każdy</div>
+            <div class="stat-label">Build nagrany</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">24h</div>
+            <div class="stat-label">Wysyłka InPost</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILOZOFIA -->
+<section>
+  <div class="wrap">
+    <div class="content-grid">
+      <div class="content-label">Dlaczego to robię</div>
+      <div class="content-body">
+        <p>
+          Nie wierzę w "najlepszy switch". Wierzę w <strong>właściwy switch dla konkretnej osoby</strong>.
+          Ktoś kto pisze przez 8 godzin potrzebuje czegoś innego niż gracz który chce
+          najszybszy pretravel na WASD. Dlatego rozmawiam zanim zaproponuję build.
+        </p>
+        <p>
+          <!-- TUTAJ: co Cię kręci w tym hobby? Jaki switch lubisz najbardziej i dlaczego?
+               Jaki był Twój najlepszy build? Co Cię zaskoczyło gdy zaczynałeś?
+               Pisz jak do znajomego, nie jak w mailu do klienta. -->
+          [Twoje zdanie o switchach, brzmienie które lubisz, co Cię zaskoczyło. Osobisty głos.]
+        </p>
+        <p>
+          Klawiatura to jedyna rzecz z którą masz kontakt przez każdą godzinę pracy.
+          Warto żeby brzmiała dobrze.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="cta-section">
+      <p class="cta-text">Pytaj o <em>swój idealny build.</em><br>Odpiszę tego samego dnia.</p>
+      <a href="index.html#kontakt" class="cta-btn">Napisz do mnie →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Cichy Mechanik</div>
+    <ul class="footer-links">
+      <li><a href="o-mnie.html">O mnie</a></li>
+      <li><a href="regulamin.html">Regulamin</a></li>
+      <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
+    </ul>
+    <p class="footer-note">Żory · Śląsk · 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
