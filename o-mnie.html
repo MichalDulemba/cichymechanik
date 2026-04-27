@@ -219,23 +219,32 @@
     .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
     .footer-links { justify-content: center; }
   }
+
+  /* ── NAV from nav.js ── */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 0.5px solid var(--line); }
+  .nav-inner { max-width: var(--max); margin: 0 auto; padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: relative; }
+  .logo { font-family: var(--sans); font-size: 20px; font-weight: 300; letter-spacing: 0.5px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo img { height: 36px; width: auto; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+  .nav-mobile-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .nav-mobile-toggle span { display: block; width: 22px; height: 1.5px; background: var(--ink); border-radius: 1px; }
+  .nav-links-mobile { display: none; }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-mobile-toggle { display: flex; }
+    .nav-links-mobile { display: none; position: absolute; top: 56px; left: 0; right: 0; background: var(--cream); border-bottom: 0.5px solid var(--line); flex-direction: column; list-style: none; padding: 16px 24px; gap: 16px; z-index: 99; }
+    .nav-links-mobile.open { display: flex; }
+    .nav-links-mobile a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; }
+  }
+
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="logo">
-      <img src="graphics/logo_cichy_mechanik.png" alt="Cichy Mechanik">
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html#builds">Builds</a></li>
-      <li><a href="o-mnie.html" class="active">O mnie</a></li>
-      <li><a href="index.html#kontakt">Kontakt</a></li>
-      <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube ↗</a></li>
-    </ul>
-  </div>
-</nav>
+<div id="nav"></div>
+<script src="nav.js"></script>
 
 <div class="wrap">
 
@@ -253,7 +262,7 @@
           Na co dzień programista. Maniak AI. Generalista który potrzebuje dobrych klawiatur do pisania promptów. Ślązak — ale taki co lubi jeździć nad morze.
         </p>
         <p>
-          Zaczęło się od frustracji z głośnymi klawiaturami w open space i skończyło na kilkunastu godzinach przy pęsecie, Krytoxie i switchach rozłożonych na całym biurku. Tak to już bywa.
+          Zaczęło się od budzenia domowników waleniem w klawisze o 4 rano. Skończyło na kilkunastu godzinach przy pęsecie, Krytoxie i switchach rozłożonych na całym biurku. Tak to już bywa.
         </p>
         <p>
           Dziś każdy build który wychodzi z warsztatu jest <strong>testowany, nagrywany i opisywany</strong>. Nie wysyłam nic czego sam nie chciałbym używać.
@@ -363,6 +372,7 @@
   <div class="footer-inner">
     <div class="footer-logo">Cichy Mechanik</div>
     <ul class="footer-links">
+      <li><a href="blog/index.html">Blog</a></li>
       <li><a href="o-mnie.html">O mnie</a></li>
       <li><a href="regulamin.html">Regulamin</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
