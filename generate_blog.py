@@ -18,20 +18,7 @@ POSTS_DIR = Path('blog/posts')
 OUTPUT_DIR = Path('blog')
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-NAV = '''<nav>
-  <div class="nav-inner">
-    <a href="../index.html" class="logo">
-      <img src="../graphics/logo_cichy_mechanik.png" alt="Cichy Mechanik">
-    </a>
-    <ul class="nav-links">
-      <li><a href="../index.html#builds">Builds</a></li>
-      <li><a href="../dzwieki.html">Posłuchaj</a></li>
-      <li><a href="index.html" class="active">Blog</a></li>
-      <li><a href="../o-mnie.html">O mnie</a></li>
-      <li><a href="../index.html#kontakt">Kontakt</a></li>
-    </ul>
-  </div>
-</nav>'''
+NAV = '<div id="nav"></div>\n<script src="../nav.js"></script>'
 
 SHARED_CSS = '''
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400&display=swap');
