@@ -1047,15 +1047,13 @@ function renderCard(id, b) {
     ? `<img src="${b.images[0]}" alt="${b.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>[ zdjęcie ]</div>'">`
     : `<div class="card-img-placeholder">[ zdjęcie ]</div>`;
   const [nameLine1, nameLine2] = b.name.split('\n');
-  const hasAudio = !!b.audioSrc;
-
   return `<a class="product-card" href="#" data-tag="${b.tag}" data-type="${b.type}" data-sound="${b.sound}" onclick="openDetail('${id}'); return false;">
     <div class="card-img">
       ${cover}
-      ${hasAudio ? `<button class="card-play-btn" onclick="cardPlay('${id}', event)" title="Posłuchaj">
+      <button class="card-play-btn" onclick="cardPlay('${id}', event)" title="Posłuchaj">
         <div class="card-play-icon" id="cpi-${id}"></div>
         <div class="card-pause-bars" id="cpb-${id}"><span></span><span></span></div>
-      </button>` : ''}
+      </button>
     </div>
     <span class="card-tag ${tagClass}"><span class="tag-dot"></span>${tagLabel}</span>
     <h3 class="card-name">${nameLine1}${nameLine2 ? '<br>' + nameLine2 : ''}</h3>
@@ -1184,7 +1182,7 @@ const builds = {
     desc: 'Gateron Smoothie Gray w białej obudowie z gumową spacją — wcześniej zabójczo głośna, po modzie brzmi miękko i przyjemnie. Biało-niebieskie manga keycapy z motywem robotów. Zaskakująco dobrze nadaje się do biura mimo gamingowej estetyki.',
     specs: [['Switch','Gateron Smoothie Gray'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Manga biało-niebieska'],['Obudowa','Ajazz biały'],['Montaż','Gasket + knob'],['Extras','Gumowa spacja']],
     images: [],
-    ytId: '', audioSrc: '',
+    ytId: '', audioSrc: 'graphics/build03/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Arctic%20Angel'
   },
   'build-04': {
