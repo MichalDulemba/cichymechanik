@@ -1,40 +1,34 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  try {
-    const data = await request.formData();
-    const name    = (data.get('name')    || '').trim() || 'Anonim';
-    const email   = (data.get('email')   || '').trim();
-    const message = (data.get('message') || '').trim();
+  const data    = await request.formData();
+  const name    = (data.get('name')    || '').trim() || 'Anonim';
+  const email   = (data.get('email')   || '').trim();
+  const message = (data.get('message') || '').trim();
 
-    if (!email || !message) {
-      return Response.json({ ok: false, error: 'Brakuje emaila lub wiadomości.' }, { status: 400 });
-    }
-
-    const body = [
-      `Wiadomość z formularza cichymechanik.pl`,
-      ``,
-      `Imię:    ${name}`,
-      `Email:   ${email}`,
-      ``,
-      `Wiadomość:`,
-      message,
-    ].join('\n');
-
-    const raw = [
-      'From: kontakt@cichymechanik.pl',
-      'To: photocoffeeman@gmail.com',
-      `Subject: =?utf-8?B?${btoa(unescape(encodeURIComponent(`Wiadomość od ${name} — cichymechanik.pl`)))}?=`,
-      'Content-Type: text/plain; charset=utf-8',
-      '',
-      body,
-    ].join('\r\n');
-
-    const msg = new EmailMessage('kontakt@cichymechanik.pl', 'photocoffeeman@gmail.com', raw);
-    await env.SEND_EMAIL.send(msg);
-
-    return Response.json({ ok: true });
-  } catch (e) {
-    return Response.json({ ok: false, error: e.message }, { status: 500 });
+  if (!email || !message) {
+    return Response.json({ ok: false, error: 'Brakuje emaila lub wiadomości.' }, { status: 400 });
   }
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Cichy Mechanik <onboarding@resend.dev>',
+      to: ['photocoffeeman@gmail.com'],
+      reply_to: email,
+      subject: `Wiadomosc od ${name} — cichymechanik.pl`,
+      text: `Imie: ${name}\nEmail: ${email}\n\nWiadomosc:\n${message}`,
+    }),
+  });
+
+  if (res.ok) {
+    return Response.json({ ok: true });
+  }
+
+  const err = await res.json().catch(() => ({}));
+  return Response.json({ ok: false, error: err.message || 'Blad wysylki.' }, { status: 500 });
 }
