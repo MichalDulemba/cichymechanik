@@ -921,8 +921,7 @@
         </div>
       </div>
       <div>
-        <!-- Formspree: zamień YOUR_FORM_ID na ID z formspree.io -->
-        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <form id="contact-form" onsubmit="submitContact(event)">
           <div class="form-group">
             <label class="form-label" for="name">Imię</label>
             <input class="form-input" type="text" id="name" name="name" required placeholder="Jan">
@@ -935,8 +934,9 @@
             <label class="form-label" for="message">Wiadomość</label>
             <textarea class="form-textarea" id="message" name="message" required placeholder="Pytam o AK820 — czy jest dostępna i jak mogę zamówić?"></textarea>
           </div>
-          <button class="form-submit" type="submit">Wyślij wiadomość →</button>
-          <p class="form-note">Formularz działa bez JS. Możesz też pisać na kontakt@cichymechanik.pl</p>
+          <button class="form-submit" type="submit" id="contact-btn">Wyślij wiadomość →</button>
+          <div id="contact-feedback" style="display:none;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;"></div>
+          <p class="form-note">Możesz też pisać na <a href="mailto:kontakt@cichymechanik.pl" style="color:inherit;">kontakt@cichymechanik.pl</a></p>
         </form>
       </div>
     </div>
@@ -1414,6 +1414,36 @@ document.addEventListener('keydown', e => {
   }
   if(e.key==='Escape') closeDetail(false); if(e.key==='ArrowLeft') galleryStep(-1); if(e.key==='ArrowRight') galleryStep(1);
 });
+
+async function submitContact(e) {
+  e.preventDefault();
+  const btn = document.getElementById('contact-btn');
+  const fb  = document.getElementById('contact-feedback');
+  const form = document.getElementById('contact-form');
+
+  btn.disabled = true;
+  btn.textContent = 'Wysyłanie…';
+  fb.style.display = 'none';
+
+  try {
+    const res = await fetch('/contact', { method: 'POST', body: new FormData(form) });
+    const json = await res.json();
+    if (json.ok) {
+      fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#eef3ee;color:#4a6a4a;border:0.5px solid #c0d4c0;';
+      fb.textContent = 'Wiadomość wysłana. Odezwę się wkrótce.';
+      form.reset();
+      btn.textContent = 'Wyślij wiadomość →';
+      btn.disabled = false;
+    } else {
+      throw new Error(json.error || 'Błąd serwera');
+    }
+  } catch (err) {
+    fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#fdf0ed;color:#a03020;border:0.5px solid #e0c0b8;';
+    fb.textContent = 'Coś poszło nie tak. Napisz na kontakt@cichymechanik.pl';
+    btn.textContent = 'Wyślij wiadomość →';
+    btn.disabled = false;
+  }
+}
 </script>
 </body>
 </html>
