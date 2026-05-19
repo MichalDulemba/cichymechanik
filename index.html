@@ -667,9 +667,21 @@
 
   .specs-grid { display: grid; grid-template-columns: 1fr 1fr; border: 0.5px solid var(--line); margin-bottom: 36px; }
 
+  .spec-section {
+    grid-column: 1 / -1;
+    padding: 6px 16px 5px;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    background: var(--paper);
+    border-bottom: 0.5px solid var(--line);
+  }
+  .spec-section:not(:first-child) { border-top: 0.5px solid var(--line); }
+
   .spec-item { padding: 12px 16px; border-bottom: 0.5px solid var(--line); }
-  .spec-item:nth-last-child(-n+2) { border-bottom: none; }
-  .spec-item:nth-child(odd) { border-right: 0.5px solid var(--line); }
+  .spec-item.spec-last { border-bottom: none; }
+  .spec-item.spec-odd { border-right: 0.5px solid var(--line); }
   .spec-key { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 4px; }
   .spec-val { font-size: 12px; color: var(--ink); }
 
@@ -749,8 +761,8 @@
     .detail-name { font-size: 28px; }
     .detail-price { font-size: 32px; }
     .specs-grid { grid-template-columns: 1fr; }
-    .spec-item:nth-child(odd) { border-right: none; }
-    .spec-item:nth-last-child(-n+2) { border-bottom: 0.5px solid var(--line); }
+    .spec-item.spec-odd { border-right: none; }
+    .spec-item.spec-last { border-bottom: 0.5px solid var(--line); }
     .spec-item:last-child { border-bottom: none; }
   }
 
@@ -1054,6 +1066,25 @@ function renderCard(id, b) {
   </a>`;
 }
 
+function renderSpecs(specs) {
+  const sections = [];
+  let current = { label: null, items: [] };
+  for (const [k, v] of specs) {
+    if (k === null) { sections.push(current); current = { label: v, items: [] }; }
+    else current.items.push([k, v]);
+  }
+  sections.push(current);
+  return sections.map(sec => {
+    const header = sec.label !== null ? `<div class="spec-section">${sec.label}</div>` : '';
+    const rows = sec.items.map(([k, v], i) => {
+      const odd   = i % 2 === 0 ? ' spec-odd' : '';
+      const last  = i >= sec.items.length - 2 ? ' spec-last' : '';
+      return `<div class="spec-item${odd}${last}"><div class="spec-key">${k}</div><div class="spec-val">${v}</div></div>`;
+    }).join('');
+    return header + rows;
+  }).join('');
+}
+
 async function initBuilds() {
   const manifests = await Promise.all(BUILD_IDS.map(loadManifest));
   BUILD_IDS.forEach((id, i) => {
@@ -1147,7 +1178,7 @@ const builds = {
     subtitle: '75% · Knob · Premium PBT',
     price: '649 PLN',
     desc: 'Retro terminal z lat 80. w nowoczesnym wydaniu. Gateron Milky Yellow po smarowaniu — delikatniejszy i cichszy niż Smoothie Gray, szybka reakcja bez zbędnej lekkości. Keycapy Atari 800 z grubego PBT robią wrażenie w dotyku. Dzieci powiedziały "okropne, nie rozumiem dlaczego ENTER to 800" — to znak że trafiłeś w target.',
-    specs: [['Switch','Gateron Milky Yellow'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Atari 800 PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Layout','75%']],
+    specs: [[null,'Switch'],['Switch','Gateron Milky Yellow'],['Typ','Linear'],['Aktuacja','50 gf'],['Skok','4.0 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Atari 800 PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Layout','75%']],
     images: [],
     ytId: 'GPQWhZ_5Ayk', ytBuildId: 'Lnpf5kruxK0', audioSrc: 'graphics/build01/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Caramel%20800'
@@ -1158,7 +1189,7 @@ const builds = {
     subtitle: '75% · Aula F75 · Mecha keycaps',
     price: '399 PLN',
     desc: 'Leobog Reaper w matowej Auli F75 — gamingowy linear z fabrycznie wygładzonym housing. Czerwono-czarne keycapy z kanji i ikonografią jednostki bojowej. Matowy finish obudowy wygląda lepiej niż cokolwiek w tej cenie.',
-    specs: [['Switch','Leobog Reaper'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Manga czerwona PBT'],['Obudowa','Aula F75 czarna'],['Montaż','Gasket + knob'],['LED','Side-shine RGB']],
+    specs: [[null,'Switch'],['Switch','Leobog Reaper'],['Typ','Linear'],['Aktuacja','45 gf'],['Skok','3.6 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Manga czerwona PBT'],['Obudowa','Aula F75 czarna'],['Montaż','Gasket + knob'],['LED','Side-shine RGB']],
     images: [],
     ytId: 'tEBAmwBWeVM', ytBuildId: 'XinjZ4MKxjE', audioSrc: 'graphics/build02/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Iron%20Yokai'
@@ -1169,7 +1200,7 @@ const builds = {
     subtitle: '75% · Biały Ajazz · Knob',
     price: '499 PLN',
     desc: 'Gateron Smoothie Gray w białej obudowie z gumową spacją — wcześniej zabójczo głośna, po modzie brzmi miękko i przyjemnie. Biało-niebieskie manga keycapy z motywem robotów. Zaskakująco dobrze nadaje się do biura mimo gamingowej estetyki.',
-    specs: [['Switch','Gateron Smoothie Gray'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Manga biało-niebieska'],['Obudowa','Ajazz biały'],['Montaż','Gasket + knob'],['Extras','Gumowa spacja']],
+    specs: [[null,'Switch'],['Switch','Gateron Smoothie Gray'],['Typ','Linear'],['Aktuacja','45 gf'],['Skok','3.4 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Manga biało-niebieska'],['Obudowa','Ajazz biały'],['Montaż','Gasket + knob'],['Extras','Gumowa spacja']],
     images: [],
     ytId: 'mxoY_yTUsZI', ytBuildId: 'R87SmpnurCU', audioSrc: 'graphics/build03/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Arctic%20Angel'
@@ -1180,7 +1211,7 @@ const builds = {
     subtitle: '75% · Knob · GMK keycaps',
     price: '449 PLN',
     desc: 'Gateron Cap Anniversary Green — cięższy, głośniejszy, z wyraźnym liniowym oporem. GMK MarrsGreen keycapy w kolorze jadeitowej zieleni i złota. Odważny color blocking który nie jest przypadkowy.',
-    specs: [['Switch','Gateron Cap Anniversary Green'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','KBDiy GMK MarrsGreen'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Layout','75%']],
+    specs: [[null,'Switch'],['Switch','Gateron Cap Anniversary Green'],['Typ','Linear'],['Aktuacja','50 gf'],['Skok','4.0 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','KBDiy GMK MarrsGreen'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Layout','75%']],
     images: [],
     ytId: 'aLQYjV6sn08', ytBuildId: 'Dg4hTr6qSoU', audioSrc: 'graphics/build04/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Mamba%20Strike'
@@ -1191,7 +1222,7 @@ const builds = {
     subtitle: '75% · Knob · Programmer edition',
     price: '429 PLN',
     desc: 'Akko V3 Creamy Purple Pro — tactile z kremowym housing i miękkim bumpem. Keycapy z motywem kodu źródłowego, skróty IDE na każdym klawiszu. Dla tych którzy rozumieją że Enter to nie tylko klawisz.',
-    specs: [['Switch','Akko V3 Creamy Purple Pro'],['Typ','Tactile'],['Lube','Krytox 205g0'],['Keycapy','Programmer PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Akcenty','Kolorowe strzałki']],
+    specs: [[null,'Switch'],['Switch','Akko V3 Creamy Purple Pro'],['Typ','Tactile'],['Aktuacja','30 gf'],['Skok','3.0 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Programmer PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Akcenty','Kolorowe strzałki']],
     images: [],
     ytId: 'UgeoXEASnAQ', ytBuildId: 'AovDYn1_lYk', audioSrc: 'graphics/build05/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Hello%20World'
@@ -1202,7 +1233,7 @@ const builds = {
     subtitle: '75% · Knob · Side-shine keycaps',
     price: '399 PLN',
     desc: 'Gateron Yellow Pro 3 — szybki linear z fabrycznie wygładzonym stem. Czarne keycapy bez górnych legend, fioletowy akcent widoczny tylko przy podświetleniu. Musi być podłączona żeby dobrze wyglądać — i wygląda.',
-    specs: [['Switch','Gateron Yellow Pro 3'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Czarne side-shine PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['LED','Side-shine fiolet']],
+    specs: [[null,'Switch'],['Switch','Gateron Yellow Pro 3'],['Typ','Linear'],['Aktuacja','50 gf'],['Skok','4.0 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Czarne side-shine PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['LED','Side-shine fiolet']],
     images: [],
     ytId: 'AAvMmGsOjtY', ytBuildId: '5xT6em79HG4', audioSrc: 'graphics/build06/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Nocturne'
@@ -1213,7 +1244,7 @@ const builds = {
     subtitle: '75% · Knob · Neon keycaps',
     price: '449 PLN',
     desc: 'Gateron Smoothie Gray — gamingowy linear z głośnym, wyraźnym thockiem. Żółty neon kontra turkusowy akcent, spacebar z odręcznym krojem pisma. Uczciwe ostrzeżenie: "dźwięk przyjemny ale BARDZO głośna" — to nie jest build do open space.',
-    specs: [['Switch','Gateron Smoothie Gray'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Neon cyberpunk PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['LED','South RGB']],
+    specs: [[null,'Switch'],['Switch','Gateron Smoothie Gray'],['Typ','Linear'],['Aktuacja','45 gf'],['Skok','3.4 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Neon cyberpunk PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['LED','South RGB']],
     images: [],
     ytId: '7MKp3qz0-5s', ytBuildId: 'be3S1D6HRl0', audioSrc: 'graphics/build07/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Night%20City'
@@ -1224,7 +1255,7 @@ const builds = {
     subtitle: '75% · Knob · Artisan keycaps',
     price: '349 PLN',
     desc: 'Leobog Reaper w czarnej obudowie z cyberpunk keycapami w solidnym, komiksowym stylu. Mniej chaotyczny niż Night City, bardziej ilustracyjny. Build dla tych którzy chcą charakter bez przesytu.',
-    specs: [['Switch','Leobog Reaper'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Cyberpunk solid PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['LED','South RGB']],
+    specs: [[null,'Switch'],['Switch','Leobog Reaper'],['Typ','Linear'],['Aktuacja','45 gf'],['Skok','3.6 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Cyberpunk solid PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['LED','South RGB']],
     images: [],
     ytId: 'k4F_5dMOEoI', ytBuildId: 'kOmuVQdXlfw', audioSrc: 'graphics/build08/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Broken%20Protocol'
@@ -1235,7 +1266,7 @@ const builds = {
     subtitle: '75% · Ajazz Pro biały · Silent',
     price: '499 PLN',
     desc: 'Outemu Peach — cichy linear w białej obudowie Ajazz Pro. Przy podświetleniu shine-through keycapy ujawniają podwójne legendy — efekt który zaskakuje. Jedyna cisza w ofercie z pełnym spektrum tęczy.',
-    specs: [['Switch','Outemu Peach (silent)'],['Typ','Linear Silent'],['Lube','Krytox 205g0'],['Keycapy','Tęczowe shine-through'],['Obudowa','Ajazz 820 Pro biały'],['Montaż','Gasket + knob'],['LED','South RGB']],
+    specs: [[null,'Switch'],['Switch','Outemu Peach (silent)'],['Typ','Silent Linear'],['Aktuacja','40 gf'],['Skok','3.3 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Tęczowe shine-through'],['Obudowa','Ajazz 820 Pro biały'],['Montaż','Gasket + knob'],['LED','South RGB']],
     images: [],
     ytId: 'h2lT-ODttqU', ytBuildId: '84pBTDeubx0', audioSrc: 'graphics/build09/klawa.mp3',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Prism%20Shift'
@@ -1246,7 +1277,7 @@ const builds = {
     subtitle: '75% · Ajazz 820 · Floral silent',
     price: '399 PLN',
     desc: 'Dla tych, którzy lubią delikatność z charakterem. Czarne klawisze z kwiatowym motywem na tle czarnej obudowy Ajazz 820 – subtelne, eleganckie, nieoczywiste. Akko Silent Fairy zapewniają cichy, miękki dotyk pod palcami.',
-    specs: [['Switch','Akko Silent Fairy'],['Typ','Linear Silent'],['Lube','Krytox 205g0'],['Keycapy','Czarne kwiatowe PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket'],['Layout','75%']],
+    specs: [[null,'Switch'],['Switch','Akko Silent Fairy'],['Typ','Silent Linear'],['Aktuacja','50 gf'],['Skok','3.3 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Czarne kwiatowe PBT'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket'],['Layout','75%']],
     images: [],
     ytId: '', ytBuildId: 'thOP0i_fN-0', audioSrc: '',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Botanical%20Ghost'
@@ -1257,7 +1288,7 @@ const builds = {
     subtitle: '75% · Ajazz · Silent tactile',
     price: '399 PLN',
     desc: 'Dla tych, którzy cenią ciszę i estetykę. Pastelowe klawisze w odcieniach błękitu i bieli tworzą klasyczną, elegancką kompozycję. Przełączniki Outemu Yellow Jade prawie nie wydają dźwięku – idealne do pracy w ciszy.',
-    specs: [['Switch','Outemu Yellow Jade'],['Typ','Tactile Silent'],['Lube','Krytox 205g0'],['Keycapy','Pastel niebiesko-białe'],['Obudowa','Ajazz 820'],['Montaż','Gasket'],['Layout','75%']],
+    specs: [[null,'Switch'],['Switch','Outemu Yellow Jade'],['Typ','Silent Tactile'],['Aktuacja','50 gf'],['Skok','3.3 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Pastel niebiesko-białe'],['Obudowa','Ajazz 820'],['Montaż','Gasket'],['Layout','75%']],
     images: [],
     ytId: '', ytBuildId: '647ADfYZOIw', audioSrc: '',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Silent%20Jade'
@@ -1268,7 +1299,7 @@ const builds = {
     subtitle: '75% · Aula F75 · ABS double shot',
     price: '399 PLN',
     desc: 'Klawiatura, która nie boi się kolorów. Intensywnie żółte klawisze ABS double shot lśnią na białej obudowie Aula F75 – wyrazisty, bezkompromisowy charakter. Pod palcami Gateron Milky Yellow – lekki, płynny, uzależniający.',
-    specs: [['Switch','Gateron Milky Yellow'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Żółte ABS double shot'],['Obudowa','Aula F75 biały'],['Montaż','Gasket'],['Layout','75%']],
+    specs: [[null,'Switch'],['Switch','Gateron Milky Yellow'],['Typ','Linear'],['Aktuacja','50 gf'],['Skok','4.0 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Żółte ABS double shot'],['Obudowa','Aula F75 biały'],['Montaż','Gasket'],['Layout','75%']],
     images: [],
     ytId: '', ytBuildId: 'VP1tGi88GwM', audioSrc: '',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Solar%20Flare'
@@ -1279,7 +1310,7 @@ const builds = {
     subtitle: '75% · Ajazz 820 biały · Pistolety',
     price: '— PLN',
     desc: 'Biało-czarne keycapy z motywem pistoletów i grubymi, gamingowymi literami na białej obudowie Ajazz 820. Gateron Smoothie Silver — szybki linear z wyraźnym thockiem. Build dla tych, którzy nie owijają w bawełnę.',
-    specs: [['Switch','Gateron Smoothie Silver'],['Typ','Linear'],['Lube','Krytox 205g0'],['Keycapy','Biało-czarne pistolety'],['Obudowa','Ajazz 820 biały'],['Montaż','Gasket + knob'],['Layout','75%']],
+    specs: [[null,'Switch'],['Switch','Gateron Smoothie Silver'],['Typ','Linear'],['Aktuacja','45 gf'],['Skok','3.4 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Biało-czarne pistolety'],['Obudowa','Ajazz 820 biały'],['Montaż','Gasket + knob'],['Layout','75%']],
     images: [],
     ytId: '', ytBuildId: '', audioSrc: '',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Smoothie%20Override'
@@ -1290,7 +1321,7 @@ const builds = {
     subtitle: '75% · Ajazz 820 czarny · Silent tactile',
     price: '— PLN',
     desc: 'Biało-czarno-bordowe keycapy w klasycznym stylu na czarnym Ajazz 820. HMX Blackberry — cichy tactile z miękkim, wyraźnym bumpem. Idealna do biura i domu.',
-    specs: [['Switch','HMX Blackberry'],['Typ','Tactile Silent'],['Lube','Krytox 205g0'],['Keycapy','Biało-czarno-bordowe classic'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Layout','75%']],
+    specs: [[null,'Switch'],['Switch','HMX Blackberry'],['Typ','Silent Linear'],['Aktuacja','42 gf'],['Skok','3.7 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Biało-czarno-bordowe classic'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Layout','75%']],
     images: [],
     ytId: '', ytBuildId: '', audioSrc: '',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Silent%20BlackBerry'
@@ -1340,7 +1371,7 @@ function openDetail(id) {
   document.getElementById('detail-subtitle').textContent = b.subtitle;
   document.getElementById('detail-price').textContent = b.price;
   document.getElementById('detail-desc').textContent = b.desc;
-  document.getElementById('specs-grid').innerHTML = b.specs.map(([k,v]) => `<div class="spec-item"><div class="spec-key">${k}</div><div class="spec-val">${v}</div></div>`).join('');
+  document.getElementById('specs-grid').innerHTML = renderSpecs(b.specs);
   currentImages = b.images || [];
   currentIndex = 0;
   renderGallery();
