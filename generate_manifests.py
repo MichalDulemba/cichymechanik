@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
 generate_manifests.py
-Uruchom z głównego folderu repozytorium:
+Uruchom z glownego folderu repozytorium:
   python generate_manifests.py
 
-Skanuje graphics/build01/ ... build09/ i tworzy manifest.json
-z listą wszystkich zdjęć w folderze.
-Uruchamiaj za każdym razem gdy dodasz lub usuniesz zdjęcia.
+Skanuje graphics/build01/ ... build14/ i tworzy manifest.json
+z lista wszystkich zdjec w folderze.
+Uruchamiaj za kazdym razem gdy dodasz lub usuniesz zdjecia.
 """
 
 import os
@@ -14,16 +14,21 @@ import json
 import glob
 
 GRAPHICS_DIR = "graphics"
-BUILD_FOLDERS = [f"build{i:02d}" for i in range(1, 10)]
-IMAGE_EXTENSIONS = ("*.jpg", "*.JPG", "*.jpeg", "*.JPEG", "*.png", "*.PNG", "*.webp", "*.WEBP")
+BUILD_FOLDERS = [f"build{i:02d}" for i in range(1, 15)]
+IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp")
 
 def generate_manifest(folder_path):
+    seen = set()
     images = []
-    for ext in IMAGE_EXTENSIONS:
-        found = glob.glob(os.path.join(folder_path, ext))
-        images.extend(found)
+    for entry in os.scandir(folder_path):
+        if not entry.is_file():
+            continue
+        if entry.name.lower().endswith(IMAGE_EXTENSIONS):
+            lower = entry.name.lower()
+            if lower not in seen:
+                seen.add(lower)
+                images.append(entry.path)
 
-    # Sortuj numerycznie jeśli możliwe, inaczej alfabetycznie
     def sort_key(path):
         name = os.path.splitext(os.path.basename(path))[0]
         try:
@@ -44,15 +49,15 @@ def generate_manifest(folder_path):
 
 def main():
     if not os.path.exists(GRAPHICS_DIR):
-        print(f"Błąd: folder '{GRAPHICS_DIR}' nie istnieje.")
-        print("Uruchom skrypt z głównego folderu repozytorium.")
+        print(f"Blad: folder '{GRAPHICS_DIR}' nie istnieje.")
+        print("Uruchom skrypt z glownego folderu repozytorium.")
         return
 
     total = 0
     for build in BUILD_FOLDERS:
         folder_path = os.path.join(GRAPHICS_DIR, build)
         if not os.path.exists(folder_path):
-            print(f"  {build}/  — brak folderu, pomijam")
+            print(f"  {build}/  -- brak folderu, pomijam")
             continue
 
         images = generate_manifest(folder_path)
@@ -60,12 +65,12 @@ def main():
         total += count
 
         if count == 0:
-            print(f"  {build}/  — brak zdjęć (manifest.json pusty)")
+            print(f"  {build}/  -- brak zdjec (manifest.json pusty)")
         else:
-            print(f"  {build}/  — {count} zdjęć: {', '.join(images)}")
+            print(f"  {build}/  -- {count} zdjec: {', '.join(images)}")
 
-    print(f"\nGotowe. Łącznie {total} zdjęć w {len(BUILD_FOLDERS)} folderach.")
-    print("Wrzuć zmiany na GitHub — Cloudflare automatycznie wdroży.")
+    print(f"\nGotowe. Lacznie {total} zdjec w {len(BUILD_FOLDERS)} folderach.")
+    print("Wrzuc zmiany na GitHub -- Cloudflare automatycznie wdrazy.")
 
 if __name__ == "__main__":
     main()
