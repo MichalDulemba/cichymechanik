@@ -198,7 +198,8 @@
     flex-shrink: 0;
   }
 
-  .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.25s ease; }
+  .card-img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.35s ease; }
+  .card-img .img-b { opacity: 0; }
 
   .card-img-placeholder {
     width: 100%;
@@ -1043,7 +1044,7 @@ function renderCard(id, b) {
   const tagClass = isGaming ? 'tag-gaming' : 'tag-office';
   const tagLabel = isGaming ? 'Gaming RGB' : 'Silent Office';
   const cover = b.images && b.images.length > 0
-    ? `<img src="${b.images[0]}" alt="${b.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>[ zdjęcie ]</div>'">`
+    ? `<img class="img-a" src="${b.images[0]}" alt="${b.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>[ zdjęcie ]</div>'"><img class="img-b" src="" alt="">`
     : `<div class="card-img-placeholder">[ zdjęcie ]</div>`;
   const [nameLine1, nameLine2] = b.name.split('\n');
   return `<a class="product-card" href="#" data-id="${id}" data-tag="${b.tag}" data-type="${b.type}" data-sound="${b.sound}" onclick="openDetail('${id}'); return false;">
@@ -1103,21 +1104,26 @@ async function initBuilds() {
     const b = builds[card.dataset.id];
     if (!b || !b.images || b.images.length < 2) return;
     const imgs = b.images.slice(0, 5);
-    const imgEl = card.querySelector('.card-img img');
-    if (!imgEl) return;
+    let front = card.querySelector('.card-img .img-a');
+    let back  = card.querySelector('.card-img .img-b');
+    if (!front || !back) return;
     let timer = null;
-    let idx = 0;
+    let idx = 1;
     card.querySelector('.card-img').addEventListener('mouseenter', () => {
       idx = 1;
       timer = setInterval(() => {
-        imgEl.style.opacity = '0';
-        setTimeout(() => { imgEl.src = imgs[idx++ % imgs.length]; imgEl.style.opacity = '1'; }, 200);
-      }, 800);
+        back.src = imgs[idx++ % imgs.length];
+        back.style.opacity = '1';
+        front.style.opacity = '0';
+        [front, back] = [back, front];
+      }, 900);
     });
     card.querySelector('.card-img').addEventListener('mouseleave', () => {
       clearInterval(timer);
-      imgEl.style.opacity = '0';
-      setTimeout(() => { imgEl.src = imgs[0]; imgEl.style.opacity = '1'; }, 200);
+      back.src = imgs[0];
+      back.style.opacity = '1';
+      front.style.opacity = '0';
+      [front, back] = [back, front];
     });
   });
 
