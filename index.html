@@ -879,7 +879,7 @@
 </div>
 
 <!-- BUILDS -->
-<section id="builds">
+<section id="builds" style="scroll-margin-top:56px;">
   <div class="wrap">
     <div class="section-header">
       <h2 class="section-title">Dostępne builds</h2>
@@ -906,7 +906,7 @@
 </section>
 
 <!-- KONTAKT -->
-<section id="kontakt">
+<section id="kontakt" style="scroll-margin-top:56px;">
   <div class="wrap">
     <div class="section-header">
       <h2 class="section-title">Kontakt</h2>
@@ -1046,7 +1046,7 @@ function renderCard(id, b) {
     ? `<img src="${b.images[0]}" alt="${b.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>[ zdjęcie ]</div>'">`
     : `<div class="card-img-placeholder">[ zdjęcie ]</div>`;
   const [nameLine1, nameLine2] = b.name.split('\n');
-  return `<a class="product-card" href="#" data-tag="${b.tag}" data-type="${b.type}" data-sound="${b.sound}" onclick="openDetail('${id}'); return false;">
+  return `<a class="product-card" href="#" data-id="${id}" data-tag="${b.tag}" data-type="${b.type}" data-sound="${b.sound}" onclick="openDetail('${id}'); return false;">
     <div class="card-img">
       ${cover}
       <button class="card-play-btn" onclick="cardPlay('${id}', event)" title="Posłuchaj">
@@ -1096,8 +1096,26 @@ async function initBuilds() {
     grid.innerHTML = BUILD_IDS.map(id => builds[id] ? renderCard(id, builds[id]) : '').join('');
   }
 
-  updateCount = applyFilters; // alias
+  updateCount = applyFilters;
   applyFilters();
+
+  document.querySelectorAll('.product-card[data-id]').forEach(card => {
+    const b = builds[card.dataset.id];
+    if (!b || !b.images || b.images.length < 2) return;
+    const imgs = b.images.slice(0, 5);
+    const imgEl = card.querySelector('.card-img img');
+    if (!imgEl) return;
+    let timer = null;
+    let idx = 0;
+    card.querySelector('.card-img').addEventListener('mouseenter', () => {
+      idx = 1;
+      timer = setInterval(() => { imgEl.src = imgs[idx++ % imgs.length]; }, 700);
+    });
+    card.querySelector('.card-img').addEventListener('mouseleave', () => {
+      clearInterval(timer);
+      imgEl.src = imgs[0];
+    });
+  });
 
   // Otwórz detal jeśli URL ma hash np. #build-03
   const hash = location.hash.replace('#', '');
@@ -1387,7 +1405,17 @@ function openDetail(id) {
     ytBuildEl.style.display = 'none';
     labelBuildEl.style.display = 'none';
   }
-  document.getElementById('detail-contact').href = b.contactHref;
+  document.getElementById('detail-contact').onclick = function(e) {
+    e.preventDefault();
+    closeDetail(false);
+    const msg = document.getElementById('message');
+    if (msg) msg.value = 'Pytam o ' + b.name.replace('\n', ' — ') + ' (' + b.subtitle + ')';
+    setTimeout(function() {
+      const sec = document.getElementById('kontakt');
+      if (sec) { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (msg) msg.focus();
+    }, 320);
+  };
   document.getElementById('product-detail').classList.add('open');
   document.body.style.overflow = 'hidden';
   // Pushujemy stan do historii — cofnięcie zamknie overlay
@@ -1444,6 +1472,13 @@ async function submitContact(e) {
     btn.disabled = false;
   }
 }
+
+window.addEventListener('load', function() {
+  if (location.hash) {
+    const el = document.querySelector(location.hash);
+    if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+  }
+});
 </script>
 </body>
 </html>
