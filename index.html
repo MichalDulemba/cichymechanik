@@ -198,7 +198,7 @@
     flex-shrink: 0;
   }
 
-  .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.25s ease; }
 
   .card-img-placeholder {
     width: 100%;
@@ -1109,11 +1109,15 @@ async function initBuilds() {
     let idx = 0;
     card.querySelector('.card-img').addEventListener('mouseenter', () => {
       idx = 1;
-      timer = setInterval(() => { imgEl.src = imgs[idx++ % imgs.length]; }, 700);
+      timer = setInterval(() => {
+        imgEl.style.opacity = '0';
+        setTimeout(() => { imgEl.src = imgs[idx++ % imgs.length]; imgEl.style.opacity = '1'; }, 200);
+      }, 800);
     });
     card.querySelector('.card-img').addEventListener('mouseleave', () => {
       clearInterval(timer);
-      imgEl.src = imgs[0];
+      imgEl.style.opacity = '0';
+      setTimeout(() => { imgEl.src = imgs[0]; imgEl.style.opacity = '1'; }, 200);
     });
   });
 
