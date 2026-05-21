@@ -743,8 +743,19 @@
 
     .section-title { font-weight: 400; }
 
+    /* Nav */
+    .nav-inner { padding: 0 20px; }
+    .wrap { padding-left: 20px; padding-right: 20px; }
+
     /* Siatka kart — 1 kolumna na wąskich */
     .product-grid { grid-template-columns: 1fr; }
+
+    /* Filtry — poziomy scroll */
+    .filters { gap: 8px; }
+    .filter-label { display: none; }
+    .filter-row { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; gap: 6px; }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .filter-btn { flex-shrink: 0; }
 
     /* Kontakt */
     .contact-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -754,9 +765,12 @@
     .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
     .footer-links { justify-content: center; }
 
-    /* Hero */
-    .hero { padding: 56px 0 48px; }
-    section { padding: 48px 0; }
+    /* Hero — mniej przestrzeni, szybciej do produktów */
+    .hero { padding: 32px 0 24px; }
+    .hero-title { font-size: clamp(28px, 8vw, 40px); margin-bottom: 14px; }
+    .hero-eyebrow { color: var(--ink-soft); margin-bottom: 12px; }
+    .hero-sub { margin-bottom: 0; }
+    section { padding: 40px 0; }
 
     /* Detail overlay */
     .detail-name { font-size: 28px; }
