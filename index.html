@@ -751,11 +751,11 @@
     .product-grid { grid-template-columns: 1fr; }
 
     /* Filtry — poziomy scroll */
-    .filters { gap: 8px; }
+    .filters { gap: 8px; overflow: hidden; }
     .filter-label { display: none; }
-    .filter-row { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; gap: 6px; }
+    .filter-row { flex-wrap: nowrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; gap: 6px; max-width: 100%; }
     .filter-row::-webkit-scrollbar { display: none; }
-    .filter-btn { flex-shrink: 0; }
+    .filter-btn { flex-shrink: 0; padding: 6px 12px; }
 
     /* Kontakt */
     .contact-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -1435,8 +1435,8 @@ function openDetail(id) {
     const msg = document.getElementById('message');
     if (msg) msg.value = 'Pytam o ' + b.name.replace('\n', ' — ') + ' (' + b.subtitle + ')';
     setTimeout(function() {
-      const sec = document.getElementById('kontakt');
-      if (sec) { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      const target = document.getElementById('contact-form') || document.getElementById('kontakt');
+      if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
       if (msg) msg.focus();
     }, 320);
   };
