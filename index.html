@@ -1106,6 +1106,30 @@ async function initBuilds() {
   updateCount = applyFilters;
   applyFilters();
 
+  const isTouch = ('ontouchstart' in window);
+  let activeMobileCard = null;
+
+  function stopCycle(state) {
+    clearInterval(state.timer);
+    clearTimeout(state.delay);
+    state.timer = null;
+    state.delay = null;
+    state.back.src = state.imgs[0];
+    state.back.style.opacity = '1';
+    state.front.style.opacity = '0';
+    [state.front, state.back] = [state.back, state.front];
+  }
+
+  function startCycle(state) {
+    state.idx = 1;
+    state.timer = setInterval(() => {
+      state.back.src = state.imgs[state.idx++ % state.imgs.length];
+      state.back.style.opacity = '1';
+      state.front.style.opacity = '0';
+      [state.front, state.back] = [state.back, state.front];
+    }, isTouch ? 1400 : 900);
+  }
+
   document.querySelectorAll('.product-card[data-id]').forEach(card => {
     const b = builds[card.dataset.id];
     if (!b || !b.images || b.images.length < 2) return;
@@ -1113,24 +1137,30 @@ async function initBuilds() {
     let front = card.querySelector('.card-img .img-a');
     let back  = card.querySelector('.card-img .img-b');
     if (!front || !back) return;
-    let timer = null;
-    let idx = 1;
-    card.querySelector('.card-img').addEventListener('mouseenter', () => {
-      idx = 1;
-      timer = setInterval(() => {
-        back.src = imgs[idx++ % imgs.length];
-        back.style.opacity = '1';
-        front.style.opacity = '0';
-        [front, back] = [back, front];
-      }, 900);
-    });
-    card.querySelector('.card-img').addEventListener('mouseleave', () => {
-      clearInterval(timer);
-      back.src = imgs[0];
-      back.style.opacity = '1';
-      front.style.opacity = '0';
-      [front, back] = [back, front];
-    });
+
+    const state = { front, back, imgs, timer: null, delay: null, idx: 1 };
+
+    if (isTouch) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            state.delay = setTimeout(() => {
+              if (activeMobileCard && activeMobileCard !== state) stopCycle(activeMobileCard);
+              activeMobileCard = state;
+              startCycle(state);
+            }, 600);
+          } else {
+            clearTimeout(state.delay);
+            if (state.timer) stopCycle(state);
+            if (activeMobileCard === state) activeMobileCard = null;
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(card);
+    } else {
+      card.querySelector('.card-img').addEventListener('mouseenter', () => startCycle(state));
+      card.querySelector('.card-img').addEventListener('mouseleave', () => stopCycle(state));
+    }
   });
 
   // Otwórz detal jeśli URL ma hash np. #build-03
