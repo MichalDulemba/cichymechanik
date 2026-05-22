@@ -1,8 +1,10 @@
 (function () {
   const supported = ['pl', 'en'];
   const stored = localStorage.getItem('lang');
-  const browser = (navigator.language || '').slice(0, 2).toLowerCase();
-  window.LANG = supported.includes(stored) ? stored : (supported.includes(browser) ? browser : 'pl');
+  const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+  const prefersPL = langs.some(l => l.toLowerCase().startsWith('pl'));
+  const prefersEN = langs.some(l => l.toLowerCase().startsWith('en'));
+  window.LANG = supported.includes(stored) ? stored : (prefersPL ? 'pl' : prefersEN ? 'en' : 'pl');
 
   window.I18N = {
     pl: {
