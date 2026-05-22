@@ -8,7 +8,7 @@
     { href: root + 'dzwieki.html',       label: 'Posłuchaj' },
     { href: root + 'blog/index.html',    label: 'Blog' },
     { href: root + 'o-mnie.html',        label: 'O mnie' },
-    { href: root + 'index.html#kontakt', label: 'Kontakt' },
+    { href: root + 'kontakt.html',        label: 'Kontakt' },
     { href: 'https://youtube.com/@cichymechanik', label: 'YouTube ↗', external: true },
   ];
 

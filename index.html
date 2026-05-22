@@ -1431,14 +1431,8 @@ function openDetail(id) {
   }
   document.getElementById('detail-contact').onclick = function(e) {
     e.preventDefault();
-    closeDetail(false);
-    const msg = document.getElementById('message');
-    if (msg) msg.value = 'Pytam o ' + b.name.replace('\n', ' — ') + ' (' + b.subtitle + ')';
-    setTimeout(function() {
-      const target = document.getElementById('contact-form') || document.getElementById('kontakt');
-      if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-      if (msg) msg.focus();
-    }, 320);
+    const msg = encodeURIComponent('Pytam o ' + b.name.replace('\n', ' — ') + ' (' + b.subtitle + ')');
+    window.location.href = 'kontakt.html?msg=' + msg;
   };
   document.getElementById('product-detail').classList.add('open');
   document.body.style.overflow = 'hidden';
