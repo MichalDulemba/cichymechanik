@@ -1,1 +1,1 @@
-window.SITE_VER = '0.0.1';
+window.SITE_VER = '0.0.2';

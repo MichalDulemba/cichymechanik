@@ -231,14 +231,15 @@
 </head>
 <body>
 
+<script src="i18n.js"></script>
 <div id="nav"></div>
 <script src="nav.js"></script>
 
 <div class="wrap">
   <div class="hero">
-    <p class="hero-eyebrow">Porównaj brzmienie</p>
-    <h1 class="hero-title">Usłysz zanim<br><em>kupisz.</em></h1>
-    <p class="hero-sub">Kliknij build, posłuchaj jak brzmi. Każda klawiatura nagrana w tych samych warunkach.</p>
+    <p class="hero-eyebrow" data-t="dzwieki_eyebrow">Porównaj brzmienie</p>
+    <h1 class="hero-title" data-t-html="dzwieki_title">Usłysz zanim<br><em>kupisz.</em></h1>
+    <p class="hero-sub" data-t="dzwieki_sub">Kliknij build, posłuchaj jak brzmi. Każda klawiatura nagrana w tych samych warunkach.</p>
   </div>
 </div>
 
@@ -248,10 +249,10 @@
     <div class="build-list" id="build-list"></div>
 
     <div class="player-panel" id="player-panel">
-      <p class="panel-eyebrow">Test dźwięku</p>
+      <p class="panel-eyebrow" data-t="dzwieki_panel_eyebrow">Test dźwięku</p>
       <div class="panel-empty">
         <span class="pe-icon">♫</span>
-        <span class="pe-label">Wybierz build</span>
+        <span class="pe-label" data-t="dzwieki_select">Wybierz build</span>
       </div>
     </div>
 
@@ -263,11 +264,11 @@
     <div class="footer-logo">Cichy Mechanik</div>
     <ul class="footer-links">
       <li><a href="blog/index.html">Blog</a></li>
-      <li><a href="o-mnie.html">O mnie</a></li>
-      <li><a href="regulamin.html">Regulamin</a></li>
+      <li><a href="o-mnie.html" data-t="footer_about">O mnie</a></li>
+      <li><a href="regulamin.html" data-t="footer_terms">Regulamin</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
     </ul>
-    <p class="footer-note">Żory · Śląsk · 2026 · <span id="site-ver"></span></p>
+    <p class="footer-note"><span data-t="footer_location">Żory · Śląsk · 2026</span> · <span id="site-ver"></span></p>
   </div>
 </footer>
 
@@ -365,17 +366,18 @@ function selectBuild(idx) {
     mediaHtml = `<div class="panel-media">
       <img class="panel-media-img" src="${b.img}" alt="${b.name}"
         onerror="this.style.display='none'">
-      <div class="panel-media-soon">Nagranie wkrótce</div>
+      <div class="panel-media-soon">${(window.I18N && window.I18N[window.LANG||'pl'].dzwieki_coming_soon)||'Nagranie wkrótce'}</div>
     </div>`;
   }
 
+  const _dt = (window.I18N && window.I18N[window.LANG||'pl']) || {};
   panel.innerHTML = `
-    <p class="panel-eyebrow">Test dźwięku</p>
+    <p class="panel-eyebrow">${_dt.dzwieki_panel_eyebrow||'Test dźwięku'}</p>
     ${mediaHtml}
     <div class="panel-name">${b.name} <span style="color:var(--ink-muted);font-weight:300">· ${b.sub}</span></div>
     <div class="panel-sub">${soundLabels[b.sound]} · ${b.tag === 'gaming-rgb' ? 'Gaming RGB' : 'Silent Office'}</div>
     <div class="panel-price">${b.price}</div>
-    <a href="index.html#${b.id}" class="view-build">Zobacz build →</a>`;
+    <a href="index.html#${b.id}" class="view-build">${window.LANG==='en'?'View build →':'Zobacz build →'}</a>`;
 
   if (window.innerWidth <= 900) {
     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });

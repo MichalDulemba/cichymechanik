@@ -243,6 +243,7 @@
 </head>
 <body>
 
+<script src="i18n.js"></script>
 <div id="nav"></div>
 <script src="nav.js"></script>
 
@@ -251,20 +252,20 @@
   <!-- HERO: tytuł + zdjęcie -->
   <div class="hero-split">
     <div class="hero-left">
-      <p class="page-eyebrow">O mnie</p>
-      <h1 class="page-title">
+      <p class="page-eyebrow" data-t="omnie_eyebrow">O mnie</p>
+      <h1 class="page-title" data-t-html="omnie_title">
         Michał.<br>
         Żory. Śląsk.<br>
         <em>Klawiatura.</em>
       </h1>
       <div class="hero-intro">
-        <p>
+        <p data-t="omnie_p1">
           Na co dzień programista. Maniak AI. Generalista który potrzebuje dobrych klawiatur do pisania promptów. Ślązak — ale taki co lubi jeździć nad morze.
         </p>
-        <p>
+        <p data-t="omnie_p2">
           Zaczęło się od budzenia domowników waleniem w klawisze o 4 rano. Skończyło na kilkunastu godzinach przy pęsecie, Krytoxie i switchach rozłożonych na całym biurku. Tak to już bywa.
         </p>
-        <p>
+        <p data-t-html="omnie_p3">
           Dziś każdy build który wychodzi z warsztatu jest <strong>testowany, nagrywany i opisywany</strong>. Nie wysyłam nic czego sam nie chciałbym używać.
         </p>
       </div>
@@ -277,7 +278,7 @@
         <img src="graphics/photo.jpg" alt="Michał — Cichy Mechanik"
              onerror="this.parentElement.innerHTML='<div class=photo-placeholder><div class=photo-placeholder-icon>👤</div><p style=font-size:11px;color:var(--ink-muted);letter-spacing:1px;>zdjęcie wkrótce</p></div>'">
       </div>
-      <p class="photo-caption">
+      <p class="photo-caption" data-t="photo_caption">
         Standardowy strój roboczy podczas smarowania stabilizatorów.
       </p>
     </div>
@@ -289,42 +290,42 @@
 <section>
   <div class="wrap">
     <div class="content-grid">
-      <div class="content-label">Jak pracuję</div>
+      <div class="content-label" data-t="how_i_work">Jak pracuję</div>
       <div class="content-body" style="padding:0;">
         <div class="process-grid">
           <div class="process-item">
             <div class="process-num">01</div>
-            <div class="process-title">Dobór komponentów</div>
-            <div class="process-desc">Obudowa, płytka, switch — każda kombinacja ma inny charakter dźwięku. Zaczynam od pytania: do czego ma służyć?</div>
+            <div class="process-title" data-t="p01_title">Dobór komponentów</div>
+            <div class="process-desc" data-t="p01_desc">Obudowa, płytka, switch — każda kombinacja ma inny charakter dźwięku. Zaczynam od pytania: do czego ma służyć?</div>
           </div>
           <div class="process-item">
             <div class="process-num">02</div>
-            <div class="process-title">Ręczne smarowanie</div>
-            <div class="process-desc">Każdy switch osobno. Krytox 205g0 na lineary, 3203 na tactile. Stem rails bez 205g0 — żeby nie niszczyć pad dampening. Zajmuje godziny. Słychać różnicę.</div>
+            <div class="process-title" data-t="p02_title">Ręczne smarowanie</div>
+            <div class="process-desc" data-t="p02_desc">Każdy switch osobno. Krytox 205g0 na lineary, 3203 na tactile. Stem rails bez 205g0 — żeby nie niszczyć pad dampening. Zajmuje godziny. Słychać różnicę.</div>
           </div>
           <div class="process-item">
             <div class="process-num">03</div>
-            <div class="process-title">Test i nagranie</div>
-            <div class="process-desc">Przed wysyłką — test akustyczny i nagranie MP3. Słyszysz zanim kupisz. Nie ma niespodzianek po otwarciu paczki.</div>
+            <div class="process-title" data-t="p03_title">Test i nagranie</div>
+            <div class="process-desc" data-t="p03_desc">Przed wysyłką — test akustyczny i nagranie MP3. Słyszysz zanim kupisz. Nie ma niespodzianek po otwarciu paczki.</div>
           </div>
         </div>
 
         <div class="stats-row">
           <div class="stat">
             <div class="stat-val">9</div>
-            <div class="stat-label">Builds 2026</div>
+            <div class="stat-label" data-t="stat_builds">Builds 2026</div>
           </div>
           <div class="stat">
             <div class="stat-val">∞</div>
-            <div class="stat-label">Godzin przy pęsecie</div>
+            <div class="stat-label" data-t="stat_hours">Godzin przy pęsecie</div>
           </div>
           <div class="stat">
             <div class="stat-val">każdy</div>
-            <div class="stat-label">Build nagrany</div>
+            <div class="stat-label" data-t="stat_recorded">Build nagrany</div>
           </div>
           <div class="stat">
             <div class="stat-val">24h</div>
-            <div class="stat-label">Wysyłka InPost</div>
+            <div class="stat-label" data-t="stat_shipping">Wysyłka InPost</div>
           </div>
         </div>
       </div>
@@ -336,17 +337,17 @@
 <section>
   <div class="wrap">
     <div class="content-grid">
-      <div class="content-label">Dlaczego to robię</div>
+      <div class="content-label" data-t="why_title">Dlaczego to robię</div>
       <div class="content-body">
-        <p>
+        <p data-t-html="why_p1">
           Nie wierzę w "najlepszy switch". Wierzę w <strong>właściwy switch dla konkretnej osoby</strong>.
           Ktoś kto pisze przez 8 godzin potrzebuje czegoś innego niż gracz który chce
           najszybszy pretravel na WASD. Dlatego rozmawiam zanim zaproponuję build.
         </p>
-        <p>
+        <p data-t="why_p2">
           To zaskakujące, że zmiana switcha może pomóc przejść od dźwięku trzaskania drzwiami toitoi, przez stukanie kamyczkami w piaskownicy, do zamykania drzwi w samochodzie za 300 tys.
         </p>
-        <p>
+        <p data-t="why_p3">
           Klawiatura to jedyna rzecz z którą masz kontakt przez każdą godzinę pracy.
           Warto żeby brzmiała dobrze.
         </p>
@@ -359,8 +360,8 @@
 <section style="border-bottom:none;">
   <div class="wrap">
     <div class="cta-section">
-      <p class="cta-text">Pytaj o <em>swój idealny build.</em><br>Odpiszę tego samego dnia.</p>
-      <a href="kontakt.html" class="cta-btn">Napisz do mnie →</a>
+      <p class="cta-text" data-t-html="cta_text">Pytaj o <em>swój idealny build.</em><br>Odpiszę tego samego dnia.</p>
+      <a href="kontakt.html" class="cta-btn" data-t="cta_btn">Napisz do mnie →</a>
     </div>
   </div>
 </section>
@@ -370,11 +371,11 @@
     <div class="footer-logo">Cichy Mechanik</div>
     <ul class="footer-links">
       <li><a href="blog/index.html">Blog</a></li>
-      <li><a href="o-mnie.html">O mnie</a></li>
-      <li><a href="regulamin.html">Regulamin</a></li>
+      <li><a href="o-mnie.html" data-t="footer_about">O mnie</a></li>
+      <li><a href="regulamin.html" data-t="footer_terms">Regulamin</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
     </ul>
-    <p class="footer-note">Żory · Śląsk · 2026 · <span id="site-ver"></span></p>
+    <p class="footer-note"><span data-t="footer_location">Żory · Śląsk · 2026</span> · <span id="site-ver"></span></p>
   </div>
 </footer>
 <script src="ver.js"></script>

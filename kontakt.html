@@ -135,14 +135,15 @@
 </head>
 <body>
 
+<script src="i18n.js"></script>
 <div id="nav"></div>
 <script src="nav.js"></script>
 
 <div class="wrap">
   <div class="hero">
-    <p class="hero-eyebrow">Zapytaj o build</p>
-    <h1 class="hero-title">Napisz —<br>odpowiadam <em>tego samego dnia.</em></h1>
-    <p class="hero-sub">Pytania o buildy, własna specyfikacja, dobór switcha do Twojego use case.</p>
+    <p class="hero-eyebrow" data-t="kontakt_eyebrow">Zapytaj o build</p>
+    <h1 class="hero-title" data-t-html="kontakt_title">Napisz —<br>odpowiadam <em>tego samego dnia.</em></h1>
+    <p class="hero-sub" data-t="kontakt_sub">Pytania o buildy, własna specyfikacja, dobór switcha do Twojego use case.</p>
   </div>
 </div>
 
@@ -151,9 +152,9 @@
     <div class="contact-grid">
 
       <div class="contact-intro">
-        <p>Masz pytanie o konkretny build? Chcesz zamówić klawiaturę z własną specyfikacją? Napisz — odpowiadam zwykle tego samego dnia.</p>
-        <p>Możemy też porozmawiać o tym który switch będzie dobry do Twojego use case — biuro, dom, gaming, pisanie.</p>
-        <div class="contact-note-block">
+        <p data-t="kontakt_p1">Masz pytanie o konkretny build? Chcesz zamówić klawiaturę z własną specyfikacją? Napisz — odpowiadam zwykle tego samego dnia.</p>
+        <p data-t="kontakt_p2">Możemy też porozmawiać o tym który switch będzie dobry do Twojego use case — biuro, dom, gaming, pisanie.</p>
+        <div class="contact-note-block" data-t-html="kontakt_note">
           Odpiszę z informacją o dostępności, sposobie płatności i wysyłce.<br>
           Wysyłam przez InPost — paczkomaty i kurier.
         </div>
@@ -172,20 +173,20 @@
       <div>
         <form id="contact-form" onsubmit="submitContact(event)">
           <div class="form-group">
-            <label class="form-label" for="name">Imię</label>
-            <input class="form-input" type="text" id="name" name="name" required placeholder="Jan">
+            <label class="form-label" for="name" data-t="form_name">Imię</label>
+            <input class="form-input" type="text" id="name" name="name" required placeholder="Jan" data-t-ph="form_name_ph">
           </div>
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
             <input class="form-input" type="email" id="email" name="email" required placeholder="jan@example.com">
           </div>
           <div class="form-group">
-            <label class="form-label" for="message">Wiadomość</label>
-            <textarea class="form-textarea" id="message" name="message" required placeholder="Pytam o Caramel 800 — czy jest dostępna i jak mogę zamówić?"></textarea>
+            <label class="form-label" for="message" data-t="form_message">Wiadomość</label>
+            <textarea class="form-textarea" id="message" name="message" required placeholder="Pytam o Caramel 800 — czy jest dostępna i jak mogę zamówić?" data-t-ph="form_msg_ph"></textarea>
           </div>
-          <button class="form-submit" type="submit" id="contact-btn">Wyślij wiadomość →</button>
+          <button class="form-submit" type="submit" id="contact-btn" data-t="form_submit">Wyślij wiadomość →</button>
           <div id="contact-feedback" style="display:none;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;"></div>
-          <p class="form-note">Możesz też pisać na <a href="mailto:kontakt@cichymechanik.pl">kontakt@cichymechanik.pl</a></p>
+          <p class="form-note" data-t-html="form_note">Możesz też pisać na <a href="mailto:kontakt@cichymechanik.pl">kontakt@cichymechanik.pl</a></p>
         </form>
       </div>
 
@@ -197,13 +198,13 @@
   <div class="footer-inner">
     <div class="footer-logo">Cichy Mechanik</div>
     <ul class="footer-links">
-      <li><a href="dzwieki.html">Posłuchaj</a></li>
+      <li><a href="dzwieki.html" data-t="footer_listen">Posłuchaj</a></li>
       <li><a href="blog/index.html">Blog</a></li>
-      <li><a href="o-mnie.html">O mnie</a></li>
-      <li><a href="regulamin.html">Regulamin</a></li>
+      <li><a href="o-mnie.html" data-t="footer_about">O mnie</a></li>
+      <li><a href="regulamin.html" data-t="footer_terms">Regulamin</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
     </ul>
-    <p class="footer-note">Żory · Śląsk · 2026 · <span id="site-ver"></span></p>
+    <p class="footer-note"><span data-t="footer_location">Żory · Śląsk · 2026</span> · <span id="site-ver"></span></p>
   </div>
 </footer>
 
@@ -221,8 +222,9 @@ async function submitContact(e) {
   const fb  = document.getElementById('contact-feedback');
   const form = document.getElementById('contact-form');
 
+  const _t = (window.I18N && window.I18N[window.LANG || 'pl']) || {};
   btn.disabled = true;
-  btn.textContent = 'Wysyłanie…';
+  btn.textContent = _t.form_sending || 'Wysyłanie…';
   fb.style.display = 'none';
 
   try {
@@ -230,17 +232,17 @@ async function submitContact(e) {
     const json = await res.json();
     if (json.ok) {
       fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#eef3ee;color:#4a6a4a;border:0.5px solid #c0d4c0;';
-      fb.textContent = 'Wiadomość wysłana. Odezwę się wkrótce.';
+      fb.textContent = _t.form_success || 'Wiadomość wysłana. Odezwę się wkrótce.';
       form.reset();
-      btn.textContent = 'Wyślij wiadomość →';
+      btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
       btn.disabled = false;
     } else {
       throw new Error(json.error || 'Błąd serwera');
     }
   } catch (err) {
     fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#fdf0ed;color:#a03020;border:0.5px solid #e0c0b8;';
-    fb.textContent = 'Coś poszło nie tak. Napisz na kontakt@cichymechanik.pl';
-    btn.textContent = 'Wyślij wiadomość →';
+    fb.textContent = _t.form_error || 'Coś poszło nie tak. Napisz na kontakt@cichymechanik.pl';
+    btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
     btn.disabled = false;
   }
 }

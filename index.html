@@ -868,20 +868,21 @@
 <body>
 
 <!-- NAV -->
+<script src="i18n.js"></script>
 <div id="nav"></div>
 <script src="nav.js"></script>
 
 <!-- HERO -->
 <div class="wrap">
   <div class="hero">
-    <p class="hero-eyebrow">Klawiatury mechaniczne · Polska · 2026</p>
-    <h1 class="hero-title">
+    <p class="hero-eyebrow" data-t="hero_eyebrow">Klawiatury mechaniczne · Polska · 2026</p>
+    <h1 class="hero-title" data-t-html="hero_title">
       Każda klawiatura<br>
       brzmi <em>inaczej.</em><br>
       Ta ma brzmieć <em>dobrze.</em>
     </h1>
     <div class="hero-line"></div>
-    <p class="hero-sub">Ręcznie montowane klawiatury mechaniczne. Dobieramy switche, smarujemy, testujemy. Posłuchaj zanim kupisz — każdy build ma nagranie.</p>
+    <p class="hero-sub" data-t="hero_sub">Ręcznie montowane klawiatury mechaniczne. Dobieramy switche, smarujemy, testujemy. Posłuchaj zanim kupisz — każdy build ma nagranie.</p>
   </div>
 </div>
 
@@ -889,13 +890,13 @@
 <section id="builds" style="scroll-margin-top:56px;">
   <div class="wrap">
     <div class="section-header">
-      <h2 class="section-title">Dostępne builds</h2>
+      <h2 class="section-title" data-t="builds_title">Dostępne builds</h2>
       <span class="section-count" id="builds-count">14 sztuk</span>
     </div>
     <div class="filters">
       <div class="filter-row">
-        <span class="filter-label"><strong>Głośność</strong></span>
-        <button class="filter-btn active" data-filter-type="sound" data-value="all" onclick="setFilter('sound','all',this)">Wszystkie</button>
+        <span class="filter-label"><strong data-t="filter_sound">Głośność</strong></span>
+        <button class="filter-btn active" data-filter-type="sound" data-value="all" onclick="setFilter('sound','all',this)" data-t="filter_all">Wszystkie</button>
         <button class="filter-btn" data-filter-type="sound" data-value="silent" onclick="setFilter('sound','silent',this)">
           <span class="filter-dot dot-silent"></span>Silent
         </button>
@@ -908,7 +909,7 @@
       </div>
     </div>
     <div class="product-grid" id="product-grid"></div>
-    <p class="no-results" id="no-results">Brak buildów w tej kategorii.</p>
+    <p class="no-results" id="no-results" data-t="no_results">Brak buildów w tej kategorii.</p>
   </div>
 </section>
 
@@ -916,13 +917,13 @@
 <section id="kontakt" style="scroll-margin-top:56px;">
   <div class="wrap">
     <div class="section-header">
-      <h2 class="section-title">Kontakt</h2>
+      <h2 class="section-title" data-t="contact_title">Kontakt</h2>
     </div>
     <div class="contact-grid">
       <div class="contact-intro">
-        <p>Masz pytanie o konkretny build? Chcesz zamówić klawiaturę z własną specyfikacją? Napisz — odpowiadam zwykle tego samego dnia.</p>
-        <p>Możemy też porozmawiać o tym który switch będzie dobry do Twojego use case — biuro, dom, gaming, pisanie.</p>
-        <div class="contact-note-block">
+        <p data-t="contact_p1">Masz pytanie o konkretny build? Chcesz zamówić klawiaturę z własną specyfikacją? Napisz — odpowiadam zwykle tego samego dnia.</p>
+        <p data-t="contact_p2">Możemy też porozmawiać o tym który switch będzie dobry do Twojego use case — biuro, dom, gaming, pisanie.</p>
+        <div class="contact-note-block" data-t-html="contact_note">
           Odpiszę z informacją o dostępności, sposobie płatności i wysyłce.<br>
           Wysyłam przez InPost — paczkomaty i kurier.
         </div>
@@ -930,20 +931,20 @@
       <div>
         <form id="contact-form" onsubmit="submitContact(event)">
           <div class="form-group">
-            <label class="form-label" for="name">Imię</label>
-            <input class="form-input" type="text" id="name" name="name" required placeholder="Jan">
+            <label class="form-label" for="name" data-t="form_name">Imię</label>
+            <input class="form-input" type="text" id="name" name="name" required placeholder="Jan" data-t-ph="form_name_ph">
           </div>
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
             <input class="form-input" type="email" id="email" name="email" required placeholder="jan@example.com">
           </div>
           <div class="form-group">
-            <label class="form-label" for="message">Wiadomość</label>
-            <textarea class="form-textarea" id="message" name="message" required placeholder="Pytam o AK820 — czy jest dostępna i jak mogę zamówić?"></textarea>
+            <label class="form-label" for="message" data-t="form_message">Wiadomość</label>
+            <textarea class="form-textarea" id="message" name="message" required placeholder="Pytam o AK820 — czy jest dostępna i jak mogę zamówić?" data-t-ph="form_msg_ph"></textarea>
           </div>
-          <button class="form-submit" type="submit" id="contact-btn">Wyślij wiadomość →</button>
+          <button class="form-submit" type="submit" id="contact-btn" data-t="form_submit">Wyślij wiadomość →</button>
           <div id="contact-feedback" style="display:none;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;"></div>
-          <p class="form-note">Możesz też pisać na <a href="mailto:kontakt@cichymechanik.pl" style="color:inherit;">kontakt@cichymechanik.pl</a></p>
+          <p class="form-note" data-t-html="form_note">Możesz też pisać na <a href="mailto:kontakt@cichymechanik.pl" style="color:inherit;">kontakt@cichymechanik.pl</a></p>
         </form>
       </div>
     </div>
@@ -955,13 +956,13 @@
   <div class="footer-inner">
     <div class="footer-logo" style="font-family:'Outfit',sans-serif;font-weight:300;font-size:18px;letter-spacing:0.5px;">Cichy Mechanik</div>
     <ul class="footer-links">
-      <li><a href="dzwieki.html">Posłuchaj</a></li>
+      <li><a href="dzwieki.html" data-t="footer_listen">Posłuchaj</a></li>
       <li><a href="blog/index.html">Blog</a></li>
-      <li><a href="o-mnie.html">O mnie</a></li>
-      <li><a href="regulamin.html">Regulamin</a></li>
+      <li><a href="o-mnie.html" data-t="footer_about">O mnie</a></li>
+      <li><a href="regulamin.html" data-t="footer_terms">Regulamin</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
     </ul>
-    <p class="footer-note">Żory · Śląsk · 2026 · <span id="site-ver"></span></p>
+    <p class="footer-note"><span data-t="footer_location">Żory · Śląsk · 2026</span> · <span id="site-ver"></span></p>
   </div>
 </footer>
 
@@ -969,7 +970,7 @@
 <div class="product-detail" id="product-detail">
   <div class="detail-nav">
     <div class="detail-nav-inner">
-      <button class="back-btn" onclick="closeDetail(false)">← Wszystkie builds</button>
+      <button class="back-btn" onclick="closeDetail(false)" data-t="overlay_back">← Wszystkie builds</button>
       <a href="index.html" class="logo">
         <img src="graphics/logo_cichy_mechanik.png" alt="Cichy Mechanik">
       </a>
@@ -985,11 +986,11 @@
         <div class="gallery-counter" id="gallery-counter" style="display:none;"></div>
       </div>
       <div class="gallery-thumbs" id="gallery-thumbs"></div>
-      <p class="media-label">Jak to brzmi</p>
+      <p class="media-label" data-t="overlay_sounds_like">Jak to brzmi</p>
       <div class="yt-embed" id="detail-yt">
         <div class="yt-placeholder"><div class="yt-icon"></div><span>nagranie wkrótce</span></div>
       </div>
-      <p class="media-label" id="label-yt-build" style="display:none;">Jak to składam</p>
+      <p class="media-label" id="label-yt-build" style="display:none;" data-t="overlay_build_video">Jak to składam</p>
       <div class="yt-embed" id="detail-yt-build" style="display:none;">
         <div class="yt-placeholder"><div class="yt-icon"></div><span>nagranie wkrótce</span></div>
       </div>
@@ -1000,19 +1001,19 @@
       <h1 class="detail-name" id="detail-name">—</h1>
       <p class="detail-subtitle" id="detail-subtitle">—</p>
       <p class="detail-price" id="detail-price">—</p>
-      <p class="detail-price-note">cena brutto · wysyłka InPost</p>
+      <p class="detail-price-note" data-t="overlay_price_note">cena brutto · wysyłka InPost</p>
       <p class="detail-desc" id="detail-desc">—</p>
-      <p class="specs-title">Specyfikacja</p>
+      <p class="specs-title" data-t="overlay_specs">Specyfikacja</p>
       <div class="specs-grid" id="specs-grid"></div>
-      <a href="#" class="contact-btn" id="detail-contact">Pytaj / zamów →</a>
-      <p class="contact-note-small">Odpowiadam zwykle tego samego dnia.</p>
+      <a href="#" class="contact-btn" id="detail-contact" data-t="overlay_ask">Pytaj / zamów →</a>
+      <p class="contact-note-small" data-t="overlay_reply">Odpowiadam zwykle tego samego dnia.</p>
     </div>
   </div>
 </div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">Zamknij ×</button>
+  <button class="lightbox-close" onclick="closeLightbox()" data-t="lightbox_close">Zamknij ×</button>
   <button class="lightbox-nav lightbox-lnav" onclick="lightboxStep(-1, event)">‹</button>
   <img src="" alt="" onclick="event.stopPropagation()">
   <button class="lightbox-nav lightbox-rnav" onclick="lightboxStep(1, event)">›</button>
@@ -1049,6 +1050,7 @@ function renderCard(id, b) {
   const isGaming = b.tag === 'gaming-rgb';
   const tagClass = isGaming ? 'tag-gaming' : 'tag-office';
   const tagLabel = isGaming ? 'Gaming RGB' : 'Silent Office';
+  const t = (window.I18N && window.I18N[window.LANG || 'pl']) || {};
   const cover = b.images && b.images.length > 0
     ? `<img class="img-a" src="${b.images[0]}" alt="${b.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>[ zdjęcie ]</div>'"><img class="img-b" src="" alt="">`
     : `<div class="card-img-placeholder">[ zdjęcie ]</div>`;
@@ -1056,7 +1058,7 @@ function renderCard(id, b) {
   return `<a class="product-card" href="#" data-id="${id}" data-tag="${b.tag}" data-type="${b.type}" data-sound="${b.sound}" onclick="openDetail('${id}'); return false;">
     <div class="card-img">
       ${cover}
-      <button class="card-play-btn" onclick="cardPlay('${id}', event)" title="Posłuchaj">
+      <button class="card-play-btn" onclick="cardPlay('${id}', event)" title="${t.card_play_title || 'Posłuchaj'}">
         <div class="card-play-icon" id="cpi-${id}"></div>
         <div class="card-pause-bars" id="cpb-${id}"><span></span><span></span></div>
       </button>
@@ -1067,7 +1069,7 @@ function renderCard(id, b) {
       <p class="card-spec">${b.subtitle}</p>
       <div class="card-footer">
         <span class="card-price">${b.price}</span>
-        <span class="card-status">dostępna</span>
+        <span class="card-status">${t.card_available || 'dostępna'}</span>
       </div>
     </div>
   </a>`;
@@ -1187,7 +1189,7 @@ function applyFilters() {
   });
   const countEl = document.getElementById('builds-count');
   const noResults = document.getElementById('no-results');
-  if (countEl) countEl.textContent = visible + ' sztuk';
+  if (countEl) countEl.textContent = visible + ' ' + ((window.I18N && window.I18N[window.LANG || 'pl'].builds_count_suffix) || 'sztuk');
   if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
 }
 
@@ -1440,7 +1442,8 @@ function openDetail(id) {
   currentIndex = 0;
   renderGallery();
   const ytEl = document.getElementById('detail-yt');
-  ytEl.innerHTML = b.ytId ? `<iframe src="https://www.youtube.com/embed/${b.ytId}" allowfullscreen></iframe>` : `<div class="yt-placeholder"><div class="yt-icon"></div><span>nagranie wkrótce</span></div>`;
+  const _cs = (window.I18N && window.I18N[window.LANG || 'pl'].overlay_coming_soon) || 'nagranie wkrótce';
+  ytEl.innerHTML = b.ytId ? `<iframe src="https://www.youtube.com/embed/${b.ytId}" allowfullscreen></iframe>` : `<div class="yt-placeholder"><div class="yt-icon"></div><span>${_cs}</span></div>`;
   const ytBuildEl = document.getElementById('detail-yt-build');
   const labelBuildEl = document.getElementById('label-yt-build');
   if (b.ytBuildId) {
@@ -1453,7 +1456,8 @@ function openDetail(id) {
   }
   document.getElementById('detail-contact').onclick = function(e) {
     e.preventDefault();
-    const msg = encodeURIComponent('Pytam o ' + b.name.replace('\n', ' — ') + ' (' + b.subtitle + ')');
+    const _prefix = (window.I18N && window.I18N[window.LANG || 'pl'].overlay_ask_prefix) || 'Pytam o';
+    const msg = encodeURIComponent(_prefix + ' ' + b.name.replace('\n', ' — ') + ' (' + b.subtitle + ')');
     window.location.href = 'kontakt.html?msg=' + msg;
   };
   document.getElementById('product-detail').classList.add('open');
@@ -1489,8 +1493,9 @@ async function submitContact(e) {
   const fb  = document.getElementById('contact-feedback');
   const form = document.getElementById('contact-form');
 
+  const _t = (window.I18N && window.I18N[window.LANG || 'pl']) || {};
   btn.disabled = true;
-  btn.textContent = 'Wysyłanie…';
+  btn.textContent = _t.form_sending || 'Wysyłanie…';
   fb.style.display = 'none';
 
   try {
@@ -1498,17 +1503,17 @@ async function submitContact(e) {
     const json = await res.json();
     if (json.ok) {
       fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#eef3ee;color:#4a6a4a;border:0.5px solid #c0d4c0;';
-      fb.textContent = 'Wiadomość wysłana. Odezwę się wkrótce.';
+      fb.textContent = _t.form_success || 'Wiadomość wysłana. Odezwę się wkrótce.';
       form.reset();
-      btn.textContent = 'Wyślij wiadomość →';
+      btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
       btn.disabled = false;
     } else {
       throw new Error(json.error || 'Błąd serwera');
     }
   } catch (err) {
     fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#fdf0ed;color:#a03020;border:0.5px solid #e0c0b8;';
-    fb.textContent = 'Coś poszło nie tak. Napisz na kontakt@cichymechanik.pl';
-    btn.textContent = 'Wyślij wiadomość →';
+    fb.textContent = _t.form_error || 'Coś poszło nie tak. Napisz na kontakt@cichymechanik.pl';
+    btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
     btn.disabled = false;
   }
 }
