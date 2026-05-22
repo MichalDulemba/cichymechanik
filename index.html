@@ -1148,14 +1148,14 @@ async function initBuilds() {
               if (activeMobileCard && activeMobileCard !== state) stopCycle(activeMobileCard);
               activeMobileCard = state;
               startCycle(state);
-            }, 600);
+            }, 400);
           } else {
             clearTimeout(state.delay);
             if (state.timer) stopCycle(state);
             if (activeMobileCard === state) activeMobileCard = null;
           }
         });
-      }, { threshold: 0.5 });
+      }, { threshold: 0.4 });
       observer.observe(card);
     } else {
       card.querySelector('.card-img').addEventListener('mouseenter', () => startCycle(state));
