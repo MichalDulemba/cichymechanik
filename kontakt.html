@@ -120,10 +120,14 @@
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .wrap { padding-left: 20px; padding-right: 20px; }
-    .hero { padding: 36px 0 28px; }
-    .hero-title { font-size: clamp(28px, 8vw, 40px); }
-    .contact-section { padding: 36px 0; }
-    .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero { padding: 24px 0 20px; }
+    .hero-title { font-size: clamp(24px, 7vw, 34px); margin-bottom: 0; }
+    .hero-sub { display: none; }
+    .contact-section { padding: 24px 0; }
+    .contact-grid { grid-template-columns: 1fr; gap: 0; }
+    /* Form najpierw na mobile */
+    .contact-grid > div:last-child { order: -1; margin-bottom: 32px; }
+    .contact-intro { display: none; }
     .footer-inner { padding: 0 20px; flex-direction: column; gap: 16px; text-align: center; }
     .footer-links { justify-content: center; }
   }
