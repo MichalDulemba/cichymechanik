@@ -961,7 +961,7 @@
       <li><a href="regulamin.html">Regulamin</a></li>
       <li><a href="https://youtube.com/@cichymechanik" target="_blank">YouTube</a></li>
     </ul>
-    <p class="footer-note">Żory · Śląsk · 2026</p>
+    <p class="footer-note">Żory · Śląsk · 2026 · <span id="site-ver"></span></p>
   </div>
 </footer>
 
@@ -1520,5 +1520,7 @@ window.addEventListener('load', function() {
   }
 });
 </script>
+<script src="ver.js"></script>
+<script>const _v = document.getElementById('site-ver'); if (_v && window.SITE_VER) _v.textContent = window.SITE_VER;</script>
 </body>
 </html>
