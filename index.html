@@ -1514,4 +1514,29 @@ async function submitContact(e) {
     const json = await res.json();
     if (json.ok) {
       fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#eef3ee;color:#4a6a4a;border:0.5px solid #c0d4c0;';
-      fb.textC
+      fb.textContent = _t.form_success || 'Wiadomość wysłana. Odezwę się wkrótce.';
+      form.reset();
+      btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
+      btn.disabled = false;
+    } else {
+      throw new Error(json.error || 'Błąd serwera');
+    }
+  } catch (err) {
+    fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#fdf0ed;color:#a03020;border:0.5px solid #e0c0b8;';
+    fb.textContent = _t.form_error || 'Coś poszło nie tak. Napisz na kontakt@cichymechanik.pl';
+    btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
+    btn.disabled = false;
+  }
+}
+
+window.addEventListener('load', function() {
+  if (location.hash) {
+    const el = document.querySelector(location.hash);
+    if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+  }
+});
+</script>
+<script src="ver.js"></script>
+<script>const _v = document.getElementById('site-ver'); if (_v && window.SITE_VER) _v.textContent = window.SITE_VER;</script>
+</body>
+</html>
