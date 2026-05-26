@@ -1029,7 +1029,7 @@ const BUILD_IDS = [
   'build-01','build-02','build-03','build-04','build-05',
   'build-06','build-07','build-08','build-09',
   'build-10','build-11','build-12',
-  'build-13','build-14'
+  'build-13','build-14','build-15'
 ];
 
 function buildFolderFromId(id) {
@@ -1377,7 +1377,7 @@ const builds = {
     price: '— PLN',
     desc: 'Biało-czarne keycapy z motywem pistoletów i grubymi, gamingowymi literami na białej obudowie Ajazz 820. Gateron Smoothie Silver — szybki linear z wyraźnym thockiem. Build dla tych, którzy nie owijają w bawełnę.',
     specs: [[null,'Switch'],['Switch','Gateron Smoothie Silver'],['Typ','Linear'],['Aktuacja','45 gf'],['Skok','3.4 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Biało-czarne pistolety'],['Obudowa','Ajazz 820 biały'],['Montaż','Gasket + knob'],['Layout','75%']],
-    images: [],
+    images: Array.from({length:6},(_,i)=>`graphics/build13/${i+1}.jpg`),
     ytId: '', ytBuildId: '', audioSrc: '',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Smoothie%20Override'
   },
@@ -1388,9 +1388,20 @@ const builds = {
     price: '— PLN',
     desc: 'Biało-czarno-bordowe keycapy w klasycznym stylu na czarnym Ajazz 820. HMX Blackberry — cichy, ale nie bezbarwny. Żadnego bumpa, za to wyraźny thocky charakter zamknięty w silent obudowie. Idealna do biura i domu.',
     specs: [[null,'Switch'],['Switch','HMX Blackberry'],['Typ','Silent Linear'],['Aktuacja','42 gf'],['Skok','3.7 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Keycapy','Biało-czarno-bordowe classic'],['Obudowa','Ajazz 820 czarny'],['Montaż','Gasket + knob'],['Layout','75%']],
-    images: [],
+    images: Array.from({length:7},(_,i)=>`graphics/build14/${i+1}.jpg`),
     ytId: '', ytBuildId: '', audioSrc: '',
     contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Silent%20BlackBerry'
+  },
+  'build-15': {
+    tag: 'silent-office', type: 'office', sound: 'medium',
+    name: 'Rosewood Apollo\nSlate Grain',
+    subtitle: '75% · Aula F75 · Tactile',
+    price: '— PLN',
+    desc: 'Ciepło drewna zamknięte w mechanice klawiatury. Akko Rosewood to tactile z wyczuwalnym, przyjemnym bumpem bez zbędnego hałasu — idealny dla tych, którzy chcą czuć każde naciśnięcie. PBT keycapy, lubrowane stabilizatory Durock i obudowa Aula F75 tworzą spójny, dopracowany zestaw.',
+    specs: [[null,'Switch'],['Switch','Akko Rosewood'],['Typ','Tactile'],['Aktuacja','45 gf'],['Skok','4.0 mm'],[null,'Build'],['Lube','Krytox 205g0'],['Stabilizatory','Durock'],['Keycapy','PBT'],['Obudowa','Aula F75'],['Montaż','Gasket'],['Layout','75%']],
+    images: Array.from({length:8},(_,i)=>`graphics/build15/${i+1}.jpg`),
+    ytId: '', ytBuildId: '', audioSrc: '',
+    contactHref: 'mailto:kontakt@cichymechanik.pl?subject=Zapytanie%20Rosewood%20Apollo'
   }
 };
 
@@ -1503,29 +1514,4 @@ async function submitContact(e) {
     const json = await res.json();
     if (json.ok) {
       fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#eef3ee;color:#4a6a4a;border:0.5px solid #c0d4c0;';
-      fb.textContent = _t.form_success || 'Wiadomość wysłana. Odezwę się wkrótce.';
-      form.reset();
-      btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
-      btn.disabled = false;
-    } else {
-      throw new Error(json.error || 'Błąd serwera');
-    }
-  } catch (err) {
-    fb.style.cssText = 'display:block;margin-top:12px;padding:12px;border-radius:1px;font-size:12px;letter-spacing:.5px;text-align:center;background:#fdf0ed;color:#a03020;border:0.5px solid #e0c0b8;';
-    fb.textContent = _t.form_error || 'Coś poszło nie tak. Napisz na kontakt@cichymechanik.pl';
-    btn.textContent = _t.form_submit || 'Wyślij wiadomość →';
-    btn.disabled = false;
-  }
-}
-
-window.addEventListener('load', function() {
-  if (location.hash) {
-    const el = document.querySelector(location.hash);
-    if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
-  }
-});
-</script>
-<script src="ver.js"></script>
-<script>const _v = document.getElementById('site-ver'); if (_v && window.SITE_VER) _v.textContent = window.SITE_VER;</script>
-</body>
-</html>
+      fb.textC
